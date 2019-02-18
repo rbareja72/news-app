@@ -3,13 +3,17 @@ import { FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
 import { Spinner } from '../../common';
-
+import { getNews } from './../News.action';
 
 class NewsList extends Component {
     static navigationOptions() {
         return {
             title: 'News',
         };   
+    }
+
+    componentDidMount() {
+        this.props.getNews();
     }
 
     render() {
@@ -21,6 +25,7 @@ class NewsList extends Component {
                     renderItem={
                         ({ item }) =>
                             <NewsItem
+                                navigation={this.props.navigation}
                                 news={item}
                             />
                     }
@@ -36,12 +41,20 @@ class NewsList extends Component {
     }
 }
 
-const mapStateToProps = () => {
-    
+const mapStateToProps = (state) => {
+    const { loaded, extraData } = state.news;
+    let { news } = state.news;
+    news = news.map((n) => {
+        n.key = n.publishedAt;
+        return n;
+    });
+    return { loaded, extraData, news };
 };
 
-const mapDispatchToProps = () => {
-
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getNews: () => getNews(dispatch)
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsList);

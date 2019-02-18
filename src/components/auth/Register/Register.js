@@ -1,15 +1,42 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { connect } from 'react-redux';
 import AuthForm from '../AuthForm';
+import { register } from '../Auth.action';
 
 class Register extends Component {
     static navigationOptions = {
         title: 'Register'
     };
+
+    constructor() {
+        super();
+        this.onRegisterPress = this.onRegisterPress.bind(this);
+    }
+
+    onRegisterPress(email, password) {
+        this.props.register(email, password);
+    }
+
     render() {
         return (
-            <AuthForm />
+            <AuthForm
+                onPrimaryPress={this.onRegisterPress}
+                errorMessage={this.props.errorMessage}
+                loading={this.props.loading ? 'true' : ''}
+            />
         );
     }
 }
-export default Register;
+
+function mapStateToProps(state) {
+    const { token, errorMessage, loading } = state.auth;
+    return { token, errorMessage, loading };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        register: (email, password) => register(dispatch, email, password)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

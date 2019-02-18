@@ -26,7 +26,11 @@ export default class NewsItem extends Component {
         } = this.props.news;
         return (
             <Card>
-                <TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                    onPress={() => this.props.navigation.navigate('detail', {
+                        newsItem: this.props.news
+                    })}
+                >
                     <View style={[row]}>
                         <View style={parentContainer}>
                             <Image 
@@ -42,7 +46,7 @@ export default class NewsItem extends Component {
                             <View style={[titleContainer, fill]}>
                                 <Text
                                     style={[heading, headingColor]}
-                                    numberOfLines={1}
+                                    numberOfLines={2}
                                     ellipsizeMode="tail"
                                 >
                                     {title}

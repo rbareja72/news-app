@@ -3,6 +3,7 @@ import Login from './components/auth/Login/Login';
 import Register from './components/auth/Register/Register';
 import NewsList from './components/main/NewsList/NewsList';
 import NewsDetail from './components/main/NewsDetail/NewsDetail';
+import WebViewComponent from './components/main/WebViewComponent/WebViewComponent';
 
 const AuthStackNavigator = createStackNavigator(
     {
@@ -16,7 +17,8 @@ const AuthStackNavigator = createStackNavigator(
 const MainStackNavigator = createStackNavigator(
     {
         list: NewsList,
-        detail: NewsDetail
+        detail: NewsDetail,
+        webView: WebViewComponent
     },
     {
         initialRouteName: 'list'
@@ -29,7 +31,7 @@ const AppNavigator = createSwitchNavigator(
         main: MainStackNavigator
     },
     {
-        initialRouteName: 'main'
+        initialRouteName: 'auth'
     }
 );
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Card, CardSection, Input, Button } from './../common';
+import { Text } from 'react-native';
+import { Card, CardSection, Input, Button, Spinner } from './../common';
+import { styles } from './AuthForm.style';
 
 export default class AuthForm extends Component {
-    
     
     constructor() {
         super();
@@ -10,23 +11,49 @@ export default class AuthForm extends Component {
         this.onEmailInputChange = this.onEmailInputChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
-    onEmailInputChange() {
 
+    state = {
+        email: '',
+        password: ''
+    };
+    onEmailInputChange(text) {
+        this.setState({ email: text });
     }
-    onPasswordInputChange() {
-
+    onPasswordInputChange(text) {
+        this.setState({ password: text });
     }
     onSubmit() {
-        this.props.navigation.navigate('list');
+        this.props.onPrimaryPress(this.state.email, this.state.password);
     }
+    
+
     renderRegister() {
         if (this.props.login) {
             return (
                 <CardSection>
-                    <Button onPress={() => this.props.navigation.navigate('register')}>
+                    <Button onPress={this.props.onSecondaryPress}>
                         Register
                     </Button>
                 </CardSection>
+            );
+        }
+    }
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner size='large' />;
+        }
+        return (
+            <Button onPress={this.onSubmit}>
+                {this.props.login ? 'Login' : 'Register'}
+            </Button>
+        );
+    }
+    renderError() {
+        if (this.props.errorMessage) {
+            return (
+                <Text style={styles.errorMessage}>
+                    {this.props.errorMessage}
+                </Text>
             );
         }
     }
@@ -48,8 +75,9 @@ export default class AuthForm extends Component {
                         onChangeText={this.onPasswordInputChange}
                     />
                 </CardSection>
+                {this.renderError()}
                 <CardSection>
-                    <Button onPress={this.onSubmit}>{this.props.login ? 'Login' : 'Register'}</Button>
+                    {this.renderButton()}
                 </CardSection>
                 {this.renderRegister()}
             </Card>
