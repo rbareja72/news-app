@@ -17,14 +17,62 @@ export default class NewsDetail extends Component {
             header: null
         };
     }
+
+    constructor() {
+        super();
+        this.onReadMore = this.onReadMore.bind(this);
+    }
+
+    state = { isReadMore: true };
+
+    onReadMore() {
+        this.setState({ isReadMore: false });
+    }
+
+    renderReadMore() {
+        const { linkBlue } = commonStyles;
+        if (this.state.isReadMore) {
+            return (
+                <TouchableOpacity onPress={this.onReadMore}>
+                    <Text style={[linkBlue]}>Read More</Text>
+                </TouchableOpacity>
+            );
+        }
+        
+    }
+
+    renderContent(content) {
+        console.log(content);
+        const i = content.lastIndexOf('[');
+        const s = content.substring(i);
+        content = content.replace(s, '');
+        const length = content.length;
+        const {
+            fontSmall,
+            textDefault
+        } = styles;
+        if (length > 100 && this.state.isReadMore) {
+            const subContent = content.substring(0, 100) + '...';            
+            return (
+                <Text style={[fontSmall, textDefault]}>{subContent}</Text>
+            );
+        }
+        content = content.replace(/[\u2026]/, '');
+
+        return (
+            <Text style={[fontSmall, textDefault]}>{content}</Text>
+        );
+    }
+
     render() {
         const {
             urlToImage,
             title,
-            content,
             author,
-            url
+            url,
+            content
         } = this.props.navigation.getParam('newsItem');
+        
         const {
             heading,
             headingColor,
@@ -63,7 +111,8 @@ export default class NewsDetail extends Component {
                         <Text style={[heading, fontLarge, headingColor, underline]}>{title}</Text>
                     </TouchableWithoutFeedback>
                     <Text style={[rightAlign, headingColor]}>-{author}</Text>
-                    <Text style={[fontSmall, textDefault]}>{content}</Text>
+                    {this.renderContent(content)}
+                    {this.renderReadMore()}
                 </View>
                 <View style={backButtonContainer}>
                     <TouchableOpacity onPress={() => this.props.navigation.goBack()}>

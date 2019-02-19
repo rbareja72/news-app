@@ -10,5 +10,6 @@ export const colors = {
     backButtonColor: 'white',
     headingColor: 'black',
     textShadowColorConfig: 'rgba(0, 0, 0, 0.75)',
-    boxShadowColorConfig: '#000'
+    boxShadowColorConfig: '#000',
+    linkColor: 'blue'
 };

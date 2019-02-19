@@ -8,7 +8,8 @@ const {
     foregroundColor,
     headingColor,
     textShadowColorConfig,
-    boxShadowColorConfig
+    boxShadowColorConfig,
+    linkColor
 } = colors;
 const commonStyles = {
     fontSmall: {
@@ -37,6 +38,11 @@ const commonStyles = {
     bottomBorder: {
         borderBottomWidth: 1,
         borderBottomColor
+    },
+    linkBlue: {
+        color: linkColor,
+        fontSize: 15,
+        textDecorationLine: 'underline'
     },
     circle: {
         borderRadius: 50
