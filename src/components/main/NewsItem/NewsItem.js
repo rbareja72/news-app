@@ -18,6 +18,7 @@ export default class NewsItem extends Component {
             fill,
             heading,
             headingColor,
+            circle
         } = commonStyles;
         const {
             title,
@@ -39,7 +40,7 @@ export default class NewsItem extends Component {
                                         { uri: urlToImage } :
                                         require('./../../../images/default.png')
                                     }
-                                style={[imageStyle, verticalCenter]}
+                                style={[circle, imageStyle, verticalCenter]}
                             />
                         </View>
                         <View style={[fill, parentContainer]}>

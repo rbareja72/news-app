@@ -15,7 +15,7 @@ const INITIAL_STATE = {
 export const AuthReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case AUTH_START:
-            return { ...state, loading: true };
+            return { ...state, errorMessage: '', loading: true };
         case SIGN_IN_SUCCESS:
             return { ...INITIAL_STATE, token: action.payload };
         case SIGN_UP_SUCCESS:
@@ -25,7 +25,7 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
         case SIGN_UP_FAIL:
             return { ...INITIAL_STATE, errorMessage: action.payload };
         case SIGN_OUT:
-            return INITIAL_STATE;
+            return { ...INITIAL_STATE };
         default: 
             return state;
     }

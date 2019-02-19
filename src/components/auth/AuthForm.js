@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Card, CardSection, Input, Button, Spinner } from './../common';
 import { styles } from './AuthForm.style';
 
@@ -51,9 +51,12 @@ export default class AuthForm extends Component {
     renderError() {
         if (this.props.errorMessage) {
             return (
-                <Text style={styles.errorMessage}>
-                    {this.props.errorMessage}
-                </Text>
+                <View style={styles.errorMessageContainer}>
+                    <Text style={styles.errorMessage}>
+                        {this.props.errorMessage}
+                    </Text> 
+                </View>
+                
             );
         }
     }
@@ -64,6 +67,7 @@ export default class AuthForm extends Component {
                     <Input 
                         label="Email"
                         placeholder="username@abcd.com"
+                        onSubmitEditing={this.onSubmit}
                         onChangeText={this.onEmailInputChange}
                     />
                 </CardSection>
@@ -72,6 +76,7 @@ export default class AuthForm extends Component {
                         label="Password"
                         placeholder="*********"
                         secureTextEntry
+                        onSubmitEditing={this.onSubmit}
                         onChangeText={this.onPasswordInputChange}
                     />
                 </CardSection>

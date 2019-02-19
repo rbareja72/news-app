@@ -4,7 +4,11 @@ export const colors = {
     borderBottomColor: '#aaa',
     borderColor: '#000',
     foregroundColor: '#000',
-    deleteText: 'white',
-    deleteBackground: 'red',
-    headingColor: 'black'
+    errorMessageColor: 'red',
+    errorMessageContainerBorderColor: 'red',
+    errorMessageContainerBackgroundColor: 'pink',
+    backButtonColor: 'white',
+    headingColor: 'black',
+    textShadowColorConfig: 'rgba(0, 0, 0, 0.75)',
+    boxShadowColorConfig: '#000'
 };

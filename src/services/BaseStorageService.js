@@ -13,7 +13,7 @@ const getItem = async (key) => {
 
 const setItem = async (key, value) => {
     try {
-        await AsyncStorage.setItem(
+        return await AsyncStorage.setItem(
             key,
             value
         );

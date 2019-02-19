@@ -6,7 +6,9 @@ const {
     modalThemeColor,
     appThemeColor,
     foregroundColor,
-    headingColor
+    headingColor,
+    textShadowColorConfig,
+    boxShadowColorConfig
 } = colors;
 const commonStyles = {
     fontSmall: {
@@ -19,9 +21,14 @@ const commonStyles = {
         fontSize: 40
     },
     textShadow: {
-        textShadowColor: 'rgba(0, 0, 0, 0.75)',
+        textShadowColor: textShadowColorConfig,
         textShadowOffset: { width: -1, height: 1 },
         textShadowRadius: 1
+    },
+    boxShadow: {
+        shadowColor: boxShadowColorConfig,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 1,
     },
     heading: {
         fontSize: 20,
@@ -30,6 +37,9 @@ const commonStyles = {
     bottomBorder: {
         borderBottomWidth: 1,
         borderBottomColor
+    },
+    circle: {
+        borderRadius: 50
     },
     underline: {
         textDecorationLine: 'underline'

@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Image, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import {
+    View,
+    Image,
+    Text,
+    TouchableOpacity,
+    ScrollView,
+    TouchableWithoutFeedback
+} from 'react-native';
 import { commonStyles } from '../../../Common.style';
 import { styles } from './NewsDetail.style';
 
@@ -11,8 +18,13 @@ export default class NewsDetail extends Component {
         };
     }
     render() {
-        console.log(this.props.navigation.getParam('newsItem'));
-        const { urlToImage, title, content, author, url } = this.props.navigation.getParam('newsItem');
+        const {
+            urlToImage,
+            title,
+            content,
+            author,
+            url
+        } = this.props.navigation.getParam('newsItem');
         const {
             heading,
             headingColor,

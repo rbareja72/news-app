@@ -1,3 +1,8 @@
+import { colors } from './../../../Colors.config';
+
+const {
+    backButtonColor
+} = colors;
 export const styles = {
     backButtonContainer: {
         position: 'absolute',
@@ -8,7 +13,7 @@ export const styles = {
         paddingHorizontal: 20
     },
     backButtonText: {
-        color: 'white',   
+        color: backButtonColor,   
     },
     textContainer: {
         padding: 10,

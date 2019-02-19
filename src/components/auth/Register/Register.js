@@ -14,7 +14,7 @@ class Register extends Component {
     }
 
     onRegisterPress(email, password) {
-        this.props.register(email, password);
+        this.props.register(email, password, this.props.navigation);
     }
 
     render() {
@@ -35,7 +35,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        register: (email, password) => register(dispatch, email, password)
+        register: (email, password, navigation) => register(dispatch, email, password, navigation)
     };
 }
 

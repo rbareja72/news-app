@@ -9,7 +9,7 @@ import {
     SIGN_OUT,
 } from './Types';
 
-export const login = async (dispatch, email, password) => {
+export const login = async (dispatch, email, password, navigation) => {
     dispatch({
         type: AUTH_START
     });
@@ -32,6 +32,7 @@ export const login = async (dispatch, email, password) => {
             type: SIGN_IN_SUCCESS,
             payload: response.token
         });
+        navigation.navigate('main');
         setItem('token', response.token);
     } else {
         dispatch({
@@ -41,7 +42,7 @@ export const login = async (dispatch, email, password) => {
     }
 };
 
-export const register = async (dispatch, email, password) => {
+export const register = async (dispatch, email, password, navigation) => {
     dispatch({
         type: AUTH_START
     });
@@ -60,11 +61,13 @@ export const register = async (dispatch, email, password) => {
     }
     const response = await signup(email, password);
     if (response.token) {
-        dispatch({
-            type: SIGN_UP_SUCCESS,
-            payload: response.token
+        setItem('token', response.token).then(() => {
+            dispatch({
+                type: SIGN_UP_SUCCESS,
+                payload: response.token
+            });
+            navigation.navigate('main');
         });
-        setItem('token', response.token);
     } else {
         dispatch({
             type: SIGN_UP_FAIL,
@@ -73,11 +76,15 @@ export const register = async (dispatch, email, password) => {
     }
 };
 
-export const signOut = (dispatch) => {
-    dispatch({
-        type: SIGN_OUT
+export const signOut = (dispatch, navigation) => {
+    setItem('token', '').then(() => {
+        dispatch({
+            type: SIGN_OUT
+        });
+        navigation.navigate('auth');
     });
-}
+    
+};
 
 function emailMatch(email) {
     const emailPattern = '^[a-zA-Z0-9.!#$%&\'*+/=?^' +
