@@ -10,13 +10,13 @@ export const styles = {
         elevation: 1 
     },
     backButtonTextContainer: {
-        paddingHorizontal: 20
+        paddingHorizontal: '15%'
     },
     backButtonText: {
         color: backButtonColor,   
     },
     textContainer: {
-        padding: 10,
+        padding: '2%',
     },
     imageStyle: {
         height: undefined,

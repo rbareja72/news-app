@@ -18,7 +18,8 @@ export default class NewsItem extends Component {
             fill,
             heading,
             headingColor,
-            circle
+            circle,
+            fontSmall
         } = commonStyles;
         const {
             title,
@@ -54,7 +55,7 @@ export default class NewsItem extends Component {
                                 </Text>
                             </View>
                             <View style={[dateContainer, fill]}>
-                                <Text>{publishedAt}</Text>
+                                <Text style={[fontSmall]}>{publishedAt}</Text>
                             </View>
                         </View>
                     </View>

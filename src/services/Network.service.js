@@ -1,6 +1,11 @@
 export const get = async (url) => {
-    const response = await fetch(url);
-    return response.json();
+    let response;
+    try {
+        response = await fetch(url);
+        return response.json();
+    } catch (err) {
+        throw response;
+    }
 };
 
 export const post = async (url, data) => {
@@ -15,7 +20,12 @@ export const post = async (url, data) => {
             password: data.password
         })
     };
-    const response = await fetch(url, extras);
-    return response.json();
+    let response;
+    try {
+        response = await fetch(url, extras);
+        return response.json();
+    } catch (err) {
+        throw err;
+    }
 };
 

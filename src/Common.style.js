@@ -1,3 +1,4 @@
+import { moderateScale } from 'react-native-size-matters';
 import { colors } from './Colors.config';
 
 const { 
@@ -13,13 +14,13 @@ const {
 } = colors;
 const commonStyles = {
     fontSmall: {
-        fontSize: 15,  
+        fontSize: moderateScale(15),  
     },
     fontLarge: {
-        fontSize: 20
+        fontSize: moderateScale(20)
     },
     fontXLarge: {
-        fontSize: 40
+        fontSize: moderateScale(30)
     },
     textShadow: {
         textShadowColor: textShadowColorConfig,
@@ -32,7 +33,7 @@ const commonStyles = {
         shadowOpacity: 1,
     },
     heading: {
-        fontSize: 20,
+        fontSize: moderateScale(20),
         fontWeight: 'bold'
     },
     bottomBorder: {
@@ -45,7 +46,7 @@ const commonStyles = {
         textDecorationLine: 'underline'
     },
     circle: {
-        borderRadius: 50
+        borderRadius: moderateScale(50)
     },
     underline: {
         textDecorationLine: 'underline'

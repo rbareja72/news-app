@@ -17,7 +17,17 @@ const setItem = async (key, value) => {
             key,
             value
         );
-    } catch (e) {}
+    } catch (e) {
+        throw e;
+    }
 };
 
-export { getItem, setItem };
+const deleteItem = async (key) => {
+    try {
+        return await AsyncStorage.removeItem(key);
+    } catch (e) {
+        throw e;
+    }
+};
+
+export { getItem, setItem, deleteItem };

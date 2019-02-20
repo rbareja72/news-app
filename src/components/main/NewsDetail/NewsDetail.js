@@ -7,6 +7,7 @@ import {
     ScrollView,
     TouchableWithoutFeedback
 } from 'react-native';
+import { readMore } from './NewsDetail.config';
 import { commonStyles } from '../../../Common.style';
 import { styles } from './NewsDetail.style';
 
@@ -25,24 +26,33 @@ export default class NewsDetail extends Component {
 
     state = { isReadMore: true };
 
+    componentDidMount() {
+        const { content } = this.props.navigation.getParam('newsItem');
+        if (content == null || content.length < 100) {
+            this.setState({ isReadMore: false });
+        }
+    }
+
     onReadMore() {
         this.setState({ isReadMore: false });
     }
 
     renderReadMore() {
-        const { linkBlue } = commonStyles;
+        const { linkBlue, fontSmall } = commonStyles;
         if (this.state.isReadMore) {
             return (
                 <TouchableOpacity onPress={this.onReadMore}>
-                    <Text style={[linkBlue]}>Read More</Text>
+                    <Text style={[linkBlue, fontSmall]}>{readMore}</Text>
                 </TouchableOpacity>
             );
-        }
-        
+        }        
     }
 
     renderContent(content) {
         console.log(content);
+        if (content == null) {
+            return;
+        }
         const i = content.lastIndexOf('[');
         const s = content.substring(i);
         content = content.replace(s, '');
@@ -50,15 +60,14 @@ export default class NewsDetail extends Component {
         const {
             fontSmall,
             textDefault
-        } = styles;
+        } = commonStyles;
         if (length > 100 && this.state.isReadMore) {
-            const subContent = content.substring(0, 100) + '...';            
+            const subContent = content.substring(0, 100) + '...';
             return (
                 <Text style={[fontSmall, textDefault]}>{subContent}</Text>
             );
         }
         content = content.replace(/[\u2026]/, '');
-
         return (
             <Text style={[fontSmall, textDefault]}>{content}</Text>
         );
@@ -77,11 +86,10 @@ export default class NewsDetail extends Component {
             heading,
             headingColor,
             column,
-            textDefault,
             fill,
             fontLarge,
-            fontSmall,
             fontXLarge,
+            fontSmall,
             textShadow,
             rightAlign,
             underline
@@ -110,7 +118,7 @@ export default class NewsDetail extends Component {
                     >
                         <Text style={[heading, fontLarge, headingColor, underline]}>{title}</Text>
                     </TouchableWithoutFeedback>
-                    <Text style={[rightAlign, headingColor]}>-{author}</Text>
+                    <Text style={[rightAlign, headingColor, fontSmall]}>-{author}</Text>
                     {this.renderContent(content)}
                     {this.renderReadMore()}
                 </View>

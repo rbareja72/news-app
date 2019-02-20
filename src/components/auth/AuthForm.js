@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
+import {
+    register,
+    emailLabel,
+    emailPlaceholder,
+    passwordLabel,
+    passwordPlaceholder,
+    login,
+} from './AuthForm.config';
 import { Card, CardSection, Input, Button, Spinner } from './../common';
 import { styles } from './AuthForm.style';
+import { commonStyles } from '../../Common.style';
 
 export default class AuthForm extends Component {
     
     constructor() {
         super();
-        this.onPasswordInputChange = this.onPasswordInputChange.bind(this);
-        this.onEmailInputChange = this.onEmailInputChange.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+        this.moveFocusTo = this.moveFocusTo.bind(this);
+        this.inputs = {};
         this.onSubmit = this.onSubmit.bind(this);
     }
 
@@ -16,35 +26,41 @@ export default class AuthForm extends Component {
         email: '',
         password: ''
     };
-    onEmailInputChange(text) {
-        this.setState({ email: text });
+    onInputChange(values) {
+        const keys = Object.keys(values);
+        const obj = {};
+        obj[keys[0]] = values[keys[0]];
+        this.setState(obj);
     }
-    onPasswordInputChange(text) {
-        this.setState({ password: text });
-    }
+
     onSubmit() {
         this.props.onPrimaryPress(this.state.email, this.state.password);
     }
     
+    moveFocusTo(id) {
+        this.inputs[id].focus();
+    }
 
     renderRegister() {
+        const { fontLarge } = commonStyles;
         if (this.props.login) {
             return (
                 <CardSection>
-                    <Button onPress={this.props.onSecondaryPress}>
-                        Register
+                    <Button onPress={this.props.onSecondaryPress} textStyle={fontLarge}>
+                        {register}
                     </Button>
                 </CardSection>
             );
         }
     }
     renderButton() {
+        const { fontLarge } = commonStyles;
         if (this.props.loading) {
             return <Spinner size='large' />;
         }
         return (
-            <Button onPress={this.onSubmit}>
-                {this.props.login ? 'Login' : 'Register'}
+            <Button onPress={this.onSubmit} textStyle={fontLarge}>
+                {this.props.login ? login : register}
             </Button>
         );
     }
@@ -61,31 +77,51 @@ export default class AuthForm extends Component {
         }
     }
     render() {
+        const { textContainerStyle } = styles;
+        const { fontLarge } = commonStyles;
         return (
-            <Card>
-                <CardSection>
-                    <Input 
-                        label="Email"
-                        placeholder="username@abcd.com"
-                        onSubmitEditing={this.onSubmit}
-                        onChangeText={this.onEmailInputChange}
-                    />
-                </CardSection>
-                <CardSection>
-                    <Input 
-                        label="Password"
-                        placeholder="*********"
-                        secureTextEntry
-                        onSubmitEditing={this.onSubmit}
-                        onChangeText={this.onPasswordInputChange}
-                    />
-                </CardSection>
-                {this.renderError()}
-                <CardSection>
-                    {this.renderButton()}
-                </CardSection>
-                {this.renderRegister()}
-            </Card>
+            <KeyboardAvoidingView>
+                <Card>
+                    <CardSection>
+                        <Input 
+                            label={emailLabel}
+                            placeholder={emailPlaceholder}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            labelStyle={fontLarge}
+                            inputStyle={fontLarge}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />
+                    </CardSection>
+                    <CardSection>
+                        <Input 
+                            label={passwordLabel}
+                            placeholder={passwordPlaceholder}
+                            secureTextEntry
+                            onRef={(ref) => {
+                                this.inputs.password = ref;
+                            }}
+                            labelStyle={fontLarge}
+                            inputStyle={fontLarge}
+                            containerStyle={textContainerStyle}
+                            onSubmitEditing={this.onSubmit}
+                            onChangeText={(text) => this.onInputChange({ password: text })}
+                        />
+                    </CardSection>
+                    {this.renderError()}
+                    <CardSection>
+                        {this.renderButton()}
+                    </CardSection>
+                    {this.renderRegister()}
+                </Card>
+            </KeyboardAvoidingView>
         );
     }
 }

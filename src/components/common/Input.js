@@ -1,23 +1,49 @@
 import React from 'react';
 import { TextInput, View, Text } from 'react-native';
 
-const Input = ({ label, value, onChangeText, placeholder, secureTextEntry, onSubmitEditing }) => {
-    const { inputStyle, labelStyle, containerStyle } = styles;
-    return (
-        <View style={containerStyle}>
-            <Text style={labelStyle}>{label}</Text>
-            <TextInput
-                autoCorrect={false}
-                secureTextEntry={secureTextEntry}
-                placeholder={placeholder}
-                style={inputStyle}
-                value={value}
-                onSubmitEditing={onSubmitEditing}
-                onChangeText={onChangeText}
-            />
-        </View>
-    );
-};
+class Input extends React.Component {
+
+    componentDidMount(){
+        if (this.props.onRef != null) {
+            this.props.onRef(this);
+        }
+    }
+    
+    focus() {
+        this.textInput.focus();
+    }
+
+    render() {
+        const {
+            label,
+            value,
+            onChangeText,
+            placeholder,
+            secureTextEntry,
+            onSubmitEditing,
+            returnKeyType,
+            blurOnSubmit,
+        } = this.props;
+        const { inputStyle, labelStyle, containerStyle } = styles;
+        return (
+            <View style={[containerStyle, this.props.containerStyle]}>
+                <Text style={[labelStyle, this.props.labelStyle]}>{label}</Text>
+                <TextInput
+                    autoCorrect={false}
+                    secureTextEntry={secureTextEntry}
+                    placeholder={placeholder}
+                    style={[inputStyle, this.props.inputStyle]}
+                    value={value}
+                    returnKeyType={returnKeyType}
+                    ref={(input) => { this.textInput = input; }}
+                    blurOnSubmit={blurOnSubmit}
+                    onSubmitEditing={onSubmitEditing}
+                    onChangeText={onChangeText}
+                />
+            </View>
+        );
+    }
+}
 const styles = {
     inputStyle: {
         color: '#000',

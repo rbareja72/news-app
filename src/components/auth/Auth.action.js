@@ -1,5 +1,6 @@
 import { signin, signup } from '../../services/Auth.service';
-import { setItem } from './../../services/BaseStorageService';
+import { setItem, deleteItem } from './../../services/BaseStorageService';
+import { emailMatch, passwordMatch } from './../../utils/Validations';
 import {
     SIGN_IN_FAIL,
     SIGN_IN_SUCCESS,
@@ -26,8 +27,14 @@ export const login = async (dispatch, email, password, navigation) => {
             'and at least 1 letter, 1 number and one special Character'
         });
     }
-    const response = await signin(email, password);
-    if (response.token) {
+    let response;
+    try {
+        response = await signin(email, password);
+    } catch (err) {
+        throw err;
+    }
+    
+    if (response && response.token) {
         dispatch({
             type: SIGN_IN_SUCCESS,
             payload: response.token
@@ -59,8 +66,14 @@ export const register = async (dispatch, email, password, navigation) => {
             'and at least 1 letter, 1 number and one special Character'
         });
     }
-    const response = await signup(email, password);
-    if (response.token) {
+    let response;
+    try {
+        response = await signup(email, password);
+    } catch (err) {
+        throw err;
+    }
+    
+    if (response && response.token) {
         setItem('token', response.token).then(() => {
             dispatch({
                 type: SIGN_UP_SUCCESS,
@@ -77,23 +90,10 @@ export const register = async (dispatch, email, password, navigation) => {
 };
 
 export const signOut = (dispatch, navigation) => {
-    setItem('token', '').then(() => {
+    deleteItem('token').then(() => {
         dispatch({
             type: SIGN_OUT
         });
         navigation.navigate('auth');
     });
-    
 };
-
-function emailMatch(email) {
-    const emailPattern = '^[a-zA-Z0-9.!#$%&\'*+/=?^' +
-    '_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])' +
-    '?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$';
-    return email.match(emailPattern);
-}
-
-function passwordMatch(password) {
-    const passwordPattern = '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$';
-    return password.match(passwordPattern);
-}

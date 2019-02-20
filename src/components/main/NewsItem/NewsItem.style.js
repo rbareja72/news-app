@@ -1,10 +1,12 @@
+import { moderateScale } from 'react-native-size-matters';
+
 export const styles = {
     imageStyle: {
-        width: 75,
-        height: 75,
+        width: moderateScale(75),
+        height: moderateScale(75),
     },
     parentContainer: {
-        padding: 10
+        padding: '2%'
     },
     dateContainer: {
         flexDirection: 'row',

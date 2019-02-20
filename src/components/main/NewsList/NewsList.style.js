@@ -1,7 +1,7 @@
 export const styles = {
     headerStyle: {
-        height: 50,
+        height: '10%',
         elevation: 2,
-        position: 'relative'
+        position: 'relative',
     }
 };

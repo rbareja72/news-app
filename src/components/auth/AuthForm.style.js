@@ -1,3 +1,4 @@
+import { scale, moderateScale, verticalScale } from 'react-native-size-matters';
 import { colors } from './../../Colors.config';
 
 const {
@@ -8,8 +9,8 @@ const {
 export const styles = {
     errorMessage: {
         color: errorMessageColor,
-        fontSize: 18,
-        padding: 10,
+        fontSize: moderateScale(18),
+        padding: '2%',
         alignSelf: 'center'
     },
     errorMessageContainer: {
@@ -20,5 +21,8 @@ export const styles = {
         width: '90%',
         marginHorizontal: '5%',
         marginVertical: 5
+    },
+    textContainerStyle: {
+        height: verticalScale(50)
     }
 };
