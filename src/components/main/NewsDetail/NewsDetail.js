@@ -49,7 +49,6 @@ export default class NewsDetail extends Component {
     }
 
     renderContent(content) {
-        console.log(content);
         if (content == null) {
             return;
         }
