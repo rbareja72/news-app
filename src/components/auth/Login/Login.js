@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { View } from 'react-native';
+import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
 import { connect } from 'react-redux';
 import { Spinner } from './../../common';
 import AuthForm from '../AuthForm';
@@ -36,19 +37,39 @@ class Login extends Component {
     onRegisterPress() {
         this.props.navigation.navigate('register');
     }
+
+    async googleSignin() {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            this.setState({ token: userInfo.accessToken });
+            console.log(userInfo);            
+        } catch (e) {
+            console.log(e);            
+        }
+    }
     
     render() {
         if (this.state.token !== '') {
             return <Spinner size='large' />;
         } 
         return (
-            <AuthForm
-                login
-                onPrimaryPress={this.onLoginPress}
-                onSecondaryPress={this.onRegisterPress}
-                errorMessage={this.props.errorMessage}
-                loading={this.props.loading ? 'true' : ''}
-            />
+            <View>
+                <AuthForm
+                    login
+                    onPrimaryPress={this.onLoginPress}
+                    onSecondaryPress={this.onRegisterPress}
+                    errorMessage={this.props.errorMessage}
+                    loading={this.props.loading ? 'true' : ''}
+                />
+                <GoogleSigninButton
+                    style={{ width: 192, height: 48 }}
+                    size={GoogleSigninButton.Size.Wide}
+                    color={GoogleSigninButton.Color.Dark}
+                    onPress={this.googleSignin}
+                />
+            </View>
+            
         );
     }
 }

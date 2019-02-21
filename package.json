@@ -10,6 +10,7 @@
     "react": "16.6.3",
     "react-native": "0.58.4",
     "react-native-gesture-handler": "^1.0.15",
+    "react-native-google-signin": "^1.2.0",
     "react-native-size-matters": "^0.1.6",
     "react-native-webview": "^5.2.1",
     "react-navigation": "^3.2.3",
