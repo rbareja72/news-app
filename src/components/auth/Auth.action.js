@@ -1,4 +1,5 @@
 import { GoogleSignin } from 'react-native-google-signin';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { signin, signup } from '../../services/Auth.service';
 import { setItem, deleteItem } from './../../services/BaseStorageService';
 import { emailMatch, passwordMatch } from './../../utils/Validations';
@@ -10,7 +11,9 @@ import {
     SIGN_UP_SUCCESS,
     SIGN_OUT,
     GOOGLE_SIGN_IN_FAIL,
-    GOOGLE_SIGN_IN_SUCCESS
+    GOOGLE_SIGN_IN_SUCCESS,
+    FACEBOOK_SIGN_IN_SUCCESS,
+    FACEBOOK_SIGN_IN_FAIL
 } from './Types';
 
 export const login = async (dispatch, email, password, navigation) => {
@@ -98,6 +101,9 @@ export const signOut = (dispatch, navigation) => {
         if (isSignedIn) {
             key = 'gToken';
             GoogleSignin.signOut();
+        } else {
+            LoginManager.logOut();
+            key = 'fToken';
         }
         deleteItem(key).then(() => {
             dispatch({
@@ -137,7 +143,7 @@ export const googleLoginSilently = async (dispatch, navigation) => {
     });
     try {
         await GoogleSignin.hasPlayServices();
-        const currUser = await GoogleSignin.signInSilently()
+        const currUser = await GoogleSignin.signInSilently();
         setItem('gToken', currUser.accessToken).then(() => {
             dispatch({
                 type: GOOGLE_SIGN_IN_SUCCESS,
@@ -150,6 +156,32 @@ export const googleLoginSilently = async (dispatch, navigation) => {
         dispatch({
             type: GOOGLE_SIGN_IN_FAIL,
             payload: ''
+        });
+    }
+};
+
+export const facebookLogin = async (dispatch, navigation, error, result) => {
+    if (error) {
+        console.log(error);
+    } else if (result.isCancelled) {
+        console.log('cancelled');
+    } else {
+        AccessToken.getCurrentAccessToken().then((data) => {
+            setItem('fToken', data.accessToken).then(() => {
+                dispatch({
+                    type: FACEBOOK_SIGN_IN_SUCCESS,
+                    payload: data.accessToken
+                });
+                console.log(data);
+                
+                navigation.navigate('main'); 
+            });
+        }).catch((err) => {
+            console.log(err);
+            dispatch({
+                type: FACEBOOK_SIGN_IN_FAIL,
+                payload: 'Failed.'
+            });
         });
     }
 };

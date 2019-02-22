@@ -41,7 +41,7 @@ class NewsList extends Component {
             fill,
             column,
             boxShadow
-        } = commonStyles;
+        } = commonStyles;        
         if (this.props.loaded) {
             return (
                 <View style={[column, fill]}>

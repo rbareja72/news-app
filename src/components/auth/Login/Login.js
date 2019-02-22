@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSigninButton, GoogleSignin } from 'react-native-google-signin';
 import { connect } from 'react-redux';
+import { LoginButton, AccessToken } from 'react-native-fbsdk';
 import { styles } from './Login.style';
 import { Spinner } from './../../common';
 import AuthForm from '../AuthForm';
-import { login, googleLogin, googleLoginSilently } from './../Auth.action';
+import { login, googleLogin, googleLoginSilently, facebookLogin } from './../Auth.action';
 import { getItem } from './../../../services/BaseStorageService';
 import { commonStyles } from '../../../Common.style';
 
@@ -19,6 +20,7 @@ class Login extends Component {
         this.onLoginPress = this.onLoginPress.bind(this);
         this.onRegisterPress = this.onRegisterPress.bind(this);
         this.googleSignin = this.googleSignin.bind(this);
+        this.facebookSignin = this.facebookSignin.bind(this);
     }
     
     state = {
@@ -30,7 +32,19 @@ class Login extends Component {
             if (value && value !== '') {
                 this.props.navigation.navigate('main');
             } else {
-                this.props.googleLoginSilently(this.props.navigation);
+                GoogleSignin.isSignedIn().then((isSignedIn) => {
+                    if (isSignedIn) {
+                        this.props.googleLoginSilently(this.props.navigation);        
+                    } else {
+                        AccessToken.getCurrentAccessToken().then((data) => {
+                            if (data && data.accessToken) {
+                                this.props.navigation.navigate('main');
+                            }
+                        }, (e) => {
+                            console.log(e);                        
+                        });
+                    }
+                });                
             }
         });
     }
@@ -46,10 +60,14 @@ class Login extends Component {
     googleSignin() {
         this.props.googleLogin(this.props.navigation);    
     }
+
+    facebookSignin(error, result) {
+        this.props.facebookLogin(this.props.navigation, error, result);
+    }
     
     render() {
         const { centerSelf } = commonStyles;
-        const { googleSigninButton } = styles;
+        const { googleSigninButton, facebookSigninButton } = styles;
         if (this.state.token !== '') {
             return <Spinner size='large' />;
         } 
@@ -69,6 +87,14 @@ class Login extends Component {
                     onPress={this.googleSignin}
                     disabled={this.props.disabled}
                 />
+                <LoginButton
+                    style={[centerSelf, facebookSigninButton]}
+                    readPermissions={['public_profile']}
+                    onLoginFinished={(error, result) => {
+                        this.facebookSignin(error, result);
+                    }}
+                    disabled={this.props.disabled}
+                />
             </View>
             
         );
@@ -84,7 +110,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         login: (email, password, navigation) => login(dispatch, email, password, navigation),
         googleLogin: (navigation) => googleLogin(dispatch, navigation),
-        googleLoginSilently: (navigation) => googleLoginSilently(dispatch, navigation)
+        googleLoginSilently: (navigation) => googleLoginSilently(dispatch, navigation),
+        facebookLogin: (navigation, error, result) => facebookLogin(dispatch, navigation, error, result)
     };
 };
 
