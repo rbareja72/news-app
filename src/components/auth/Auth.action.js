@@ -1,3 +1,4 @@
+import { GoogleSignin } from 'react-native-google-signin';
 import { signin, signup } from '../../services/Auth.service';
 import { setItem, deleteItem } from './../../services/BaseStorageService';
 import { emailMatch, passwordMatch } from './../../utils/Validations';
@@ -8,6 +9,8 @@ import {
     SIGN_UP_FAIL,
     SIGN_UP_SUCCESS,
     SIGN_OUT,
+    GOOGLE_SIGN_IN_FAIL,
+    GOOGLE_SIGN_IN_SUCCESS
 } from './Types';
 
 export const login = async (dispatch, email, password, navigation) => {
@@ -90,10 +93,63 @@ export const register = async (dispatch, email, password, navigation) => {
 };
 
 export const signOut = (dispatch, navigation) => {
-    deleteItem('token').then(() => {
-        dispatch({
-            type: SIGN_OUT
+    let key = 'token';
+    GoogleSignin.isSignedIn().then((isSignedIn) => {
+        if (isSignedIn) {
+            key = 'gToken';
+            GoogleSignin.signOut();
+        }
+        deleteItem(key).then(() => {
+            dispatch({
+                type: SIGN_OUT
+            });
+            navigation.navigate('auth');
         });
-        navigation.navigate('auth');
     });
+};
+
+export const googleLogin = async (dispatch, navigation) => {
+    dispatch({
+        type: AUTH_START
+    });
+    try {
+        await GoogleSignin.hasPlayServices();
+        const userInfo = await GoogleSignin.signIn();
+        setItem('gToken', userInfo.accessToken).then(() => {
+            dispatch({
+                type: GOOGLE_SIGN_IN_SUCCESS,
+                payload: userInfo.accessToken
+            });
+            navigation.navigate('main'); 
+        });    
+    } catch (e) {
+        dispatch({
+            type: GOOGLE_SIGN_IN_FAIL,
+            payload: 'Error Occured.'
+        });
+    }
+};
+
+
+export const googleLoginSilently = async (dispatch, navigation) => {
+    dispatch({
+        type: AUTH_START
+    });
+    try {
+        await GoogleSignin.hasPlayServices();
+        const currUser = await GoogleSignin.signInSilently()
+        setItem('gToken', currUser.accessToken).then(() => {
+            dispatch({
+                type: GOOGLE_SIGN_IN_SUCCESS,
+                payload: currUser.accessToken
+            });
+            navigation.navigate('main'); 
+        });
+    } catch (e) {
+        console.log(e);        
+        dispatch({
+            type: GOOGLE_SIGN_IN_FAIL,
+            payload: ''
+        });
+    }
 };

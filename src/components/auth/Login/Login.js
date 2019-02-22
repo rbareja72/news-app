@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { GoogleSignin, GoogleSigninButton } from 'react-native-google-signin';
+import { GoogleSigninButton } from 'react-native-google-signin';
 import { connect } from 'react-redux';
+import { styles } from './Login.style';
 import { Spinner } from './../../common';
 import AuthForm from '../AuthForm';
-import { login } from './../Auth.action';
+import { login, googleLogin, googleLoginSilently } from './../Auth.action';
 import { getItem } from './../../../services/BaseStorageService';
+import { commonStyles } from '../../../Common.style';
 
 class Login extends Component {
     static navigationOptions = {
@@ -16,16 +18,19 @@ class Login extends Component {
         super();
         this.onLoginPress = this.onLoginPress.bind(this);
         this.onRegisterPress = this.onRegisterPress.bind(this);
+        this.googleSignin = this.googleSignin.bind(this);
     }
     
     state = {
-        token: ''
+        token: '',
     };
 
     componentDidMount() {
         getItem('token').then((value) => {
             if (value && value !== '') {
                 this.props.navigation.navigate('main');
+            } else {
+                this.props.googleLoginSilently(this.props.navigation);
             }
         });
     }
@@ -38,18 +43,13 @@ class Login extends Component {
         this.props.navigation.navigate('register');
     }
 
-    async googleSignin() {
-        try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-            this.setState({ token: userInfo.accessToken });
-            console.log(userInfo);            
-        } catch (e) {
-            console.log(e);            
-        }
+    googleSignin() {
+        this.props.googleLogin(this.props.navigation);    
     }
     
     render() {
+        const { centerSelf } = commonStyles;
+        const { googleSigninButton } = styles;
         if (this.state.token !== '') {
             return <Spinner size='large' />;
         } 
@@ -63,10 +63,11 @@ class Login extends Component {
                     loading={this.props.loading ? 'true' : ''}
                 />
                 <GoogleSigninButton
-                    style={{ width: 192, height: 48 }}
+                    style={[centerSelf, googleSigninButton]}
                     size={GoogleSigninButton.Size.Wide}
                     color={GoogleSigninButton.Color.Dark}
                     onPress={this.googleSignin}
+                    disabled={this.props.disabled}
                 />
             </View>
             
@@ -75,13 +76,15 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { token, errorMessage, loading } = state.auth;
-    return { token, errorMessage, loading };
+    const { token, errorMessage, loading, disabled } = state.auth;
+    return { token, errorMessage, loading, disabled };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        login: (email, password, navigation) => login(dispatch, email, password, navigation)
+        login: (email, password, navigation) => login(dispatch, email, password, navigation),
+        googleLogin: (navigation) => googleLogin(dispatch, navigation),
+        googleLoginSilently: (navigation) => googleLoginSilently(dispatch, navigation)
     };
 };
 
