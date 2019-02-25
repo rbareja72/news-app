@@ -76,13 +76,13 @@ class Login extends Component {
         const { googleSigninButton, facebookSigninButton, loaderContainer } = styles;
         if (this.props.disabled) {
             return (
-                <View style={[loaderContainer, { visibility: 'hidden' }]}>
+                <View style={[loaderContainer]}>
                     <Spinner size='large' />
                 </View>
             );  
         } 
         return (
-            <View style={{ display: this.props.disabled ? 'none' : 'flex' }}>
+            <View>
                 <AuthForm
                     login
                     onPrimaryPress={this.onLoginPress}
@@ -108,11 +108,12 @@ class Login extends Component {
     }
     
     render() {
+        const { majorContainer } = styles;
         if (this.state.token !== '') {
             return <Spinner size='large' />;
         } 
         return (
-            <View style={{ height: '100%' }}>
+            <View style={ majorContainer }>
                 {this.renderLoginForm()}
             </View>
         );

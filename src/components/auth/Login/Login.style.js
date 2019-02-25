@@ -16,5 +16,6 @@ export const styles = {
         position: 'absolute',
         width: '100%',
         height: '100%',
-    }
+    },
+    majorContainer: { height: '100%' }
 };
