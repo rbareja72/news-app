@@ -10,5 +10,11 @@ export const styles = {
         width: moderateScale(192),
         height: moderateScale(35),
         marginTop: moderateScale(20)
+    },
+    loaderContainer: {
+        elevation: 2,
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
     }
 };

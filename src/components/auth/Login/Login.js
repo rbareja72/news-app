@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Button } from 'react-native';
 import { GoogleSigninButton, GoogleSignin } from 'react-native-google-signin';
 import { connect } from 'react-redux';
 import { LoginButton, AccessToken } from 'react-native-fbsdk';
@@ -30,21 +30,27 @@ class Login extends Component {
     componentDidMount() {
         getItem('token').then((value) => {
             if (value && value !== '') {
-                this.props.navigation.navigate('main');
-            } else {
-                GoogleSignin.isSignedIn().then((isSignedIn) => {
-                    if (isSignedIn) {
-                        this.props.googleLoginSilently(this.props.navigation);        
-                    } else {
-                        AccessToken.getCurrentAccessToken().then((data) => {
-                            if (data && data.accessToken) {
-                                this.props.navigation.navigate('main');
-                            }
-                        }, (e) => {
-                            console.log(e);                        
-                        });
+                getItem('loginType').then((loginType) => {
+                    switch (loginType) {
+                        case '1':
+                            this.props.navigation.navigate('main');
+                            break;
+                        case '2':
+                            GoogleSignin.isSignedIn().then((isSignedIn) => {
+                                if (isSignedIn) {
+                                    this.props.googleLoginSilently(this.props.navigation);        
+                                }
+                            });
+                            break;
+                        case '3':
+                            AccessToken.getCurrentAccessToken().then((data) => {
+                                if (data && data.accessToken) {
+                                    this.props.navigation.navigate('main');
+                                }
+                            });
+                            break;
                     }
-                });                
+                });     
             }
         });
     }
@@ -61,18 +67,22 @@ class Login extends Component {
         this.props.googleLogin(this.props.navigation);    
     }
 
-    facebookSignin(error, result) {
-        this.props.facebookLogin(this.props.navigation, error, result);
+    facebookSignin() {
+        this.props.facebookLogin(this.props.navigation);
     }
-    
-    render() {
+
+    renderLoginForm() {
         const { centerSelf } = commonStyles;
-        const { googleSigninButton, facebookSigninButton } = styles;
-        if (this.state.token !== '') {
-            return <Spinner size='large' />;
+        const { googleSigninButton, facebookSigninButton, loaderContainer } = styles;
+        if (this.props.disabled) {
+            return (
+                <View style={[loaderContainer, { visibility: 'hidden' }]}>
+                    <Spinner size='large' />
+                </View>
+            );  
         } 
         return (
-            <View>
+            <View style={{ display: this.props.disabled ? 'none' : 'flex' }}>
                 <AuthForm
                     login
                     onPrimaryPress={this.onLoginPress}
@@ -87,16 +97,24 @@ class Login extends Component {
                     onPress={this.googleSignin}
                     disabled={this.props.disabled}
                 />
-                <LoginButton
-                    style={[centerSelf, facebookSigninButton]}
-                    readPermissions={['public_profile']}
-                    onLoginFinished={(error, result) => {
-                        this.facebookSignin(error, result);
-                    }}
-                    disabled={this.props.disabled}
+                <Button
+                    onPress={this.facebookSignin}
+                    title='Login With Facebook'
+                    color='#4267b2'
+                    style={facebookSigninButton}
                 />
             </View>
-            
+        );
+    }
+    
+    render() {
+        if (this.state.token !== '') {
+            return <Spinner size='large' />;
+        } 
+        return (
+            <View style={{ height: '100%' }}>
+                {this.renderLoginForm()}
+            </View>
         );
     }
 }
@@ -111,7 +129,7 @@ const mapDispatchToProps = (dispatch) => {
         login: (email, password, navigation) => login(dispatch, email, password, navigation),
         googleLogin: (navigation) => googleLogin(dispatch, navigation),
         googleLoginSilently: (navigation) => googleLoginSilently(dispatch, navigation),
-        facebookLogin: (navigation, error, result) => facebookLogin(dispatch, navigation, error, result)
+        facebookLogin: (navigation) => facebookLogin(dispatch, navigation)
     };
 };
 
