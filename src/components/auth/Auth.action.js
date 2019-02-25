@@ -14,7 +14,8 @@ import {
 
 export const login = async (dispatch, email, password, navigation) => {
     dispatch({
-        type: AUTH_START
+        type: AUTH_START,
+        payload: { loading: true }
     });
     if (!emailMatch(email)) {
         return dispatch({
@@ -54,7 +55,8 @@ export const login = async (dispatch, email, password, navigation) => {
 
 export const register = async (dispatch, email, password, navigation) => {
     dispatch({
-        type: AUTH_START
+        type: AUTH_START,
+        payload: { loading: true }
     });
     if (!emailMatch(email)) {
         return dispatch({
@@ -103,18 +105,21 @@ export const signOut = (dispatch, navigation) => {
                 break;
         }
         setItem('loginType', '0');
-        deleteItem('').then(() => {
+        deleteItem('token').then(() => {
             dispatch({
                 type: SIGN_OUT
             });
-            navigation.navigate('auth');
+            if (navigation) {
+                navigation.navigate('auth');
+            }            
         });
     });
 };
 
 export const googleLogin = async (dispatch, navigation) => {
     dispatch({
-        type: AUTH_START
+        type: AUTH_START,
+        payload: { loading: true }
     });
     try {
         await GoogleSignin.hasPlayServices();
@@ -138,7 +143,8 @@ export const googleLogin = async (dispatch, navigation) => {
 
 export const googleLoginSilently = async (dispatch, navigation) => {
     dispatch({
-        type: AUTH_START
+        type: AUTH_START,
+        payload: { loading: true }
     });
     try {
         await GoogleSignin.hasPlayServices();
@@ -161,7 +167,8 @@ export const googleLoginSilently = async (dispatch, navigation) => {
 
 export const facebookLogin = async (dispatch, navigation) => {
     dispatch({
-        type: AUTH_START
+        type: AUTH_START,
+        payload: { loading: false }
     });
     LoginManager.logInWithReadPermissions(
         ['public_profile', 'email', 'user_friends']).then(

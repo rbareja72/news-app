@@ -24,7 +24,7 @@ const INITIAL_STATE = {
 export const AuthReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case AUTH_START:
-            return { ...state, errorMessage: '', loading: true, disabled: true };
+            return { ...state, errorMessage: '', loading: action.payload.loading, disabled: true };
         case SIGN_IN_SUCCESS:
             return {
                 ...state,
@@ -33,7 +33,13 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
                 loginType: action.payload.type
             };
         case SIGN_UP_SUCCESS:
-            return { ...state, loading: false, token: action.payload, loginType: action.payload.type };
+            return {
+                ...state,
+                loading: false,
+                token: action.payload,
+                loginType: action.payload.type,
+                disabled: true
+            };
         case SIGN_IN_FAIL:
             return { ...state, loading: false, errorMessage: action.payload, disabled: false };
         case SIGN_UP_FAIL:

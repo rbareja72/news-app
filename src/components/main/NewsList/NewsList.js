@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ToolbarAndroid, FlatList, View } from 'react-native';
+import { ToolbarAndroid, FlatList, View, BackHandler } from 'react-native';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
 import { Spinner } from '../../common';
@@ -24,6 +24,10 @@ class NewsList extends Component {
 
     componentDidMount() {
         this.props.getNews();
+    }
+
+    componentWillUnmount() {
+        this.props.signOut();
     }
 
     onActionSelected(position) {

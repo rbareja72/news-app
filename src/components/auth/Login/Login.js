@@ -74,37 +74,39 @@ class Login extends Component {
     renderLoginForm() {
         const { centerSelf } = commonStyles;
         const { googleSigninButton, facebookSigninButton, loaderContainer } = styles;
-        if (this.props.disabled) {
+        if (this.props.loading) {
             return (
                 <View style={[loaderContainer]}>
                     <Spinner size='large' />
                 </View>
             );  
         } 
-        return (
-            <View>
-                <AuthForm
-                    login
-                    onPrimaryPress={this.onLoginPress}
-                    onSecondaryPress={this.onRegisterPress}
-                    errorMessage={this.props.errorMessage}
-                    loading={this.props.loading ? 'true' : ''}
-                />
-                <GoogleSigninButton
-                    style={[centerSelf, googleSigninButton]}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={this.googleSignin}
-                    disabled={this.props.disabled}
-                />
-                <Button
-                    onPress={this.facebookSignin}
-                    title='Login With Facebook'
-                    color='#4267b2'
-                    style={facebookSigninButton}
-                />
-            </View>
-        );
+        if (!this.props.disabled) {
+            return (
+                <View>
+                    <AuthForm
+                        login
+                        onPrimaryPress={this.onLoginPress}
+                        onSecondaryPress={this.onRegisterPress}
+                        errorMessage={this.props.errorMessage}
+                        loading={this.props.loading ? 'true' : ''}
+                    />
+                    <GoogleSigninButton
+                        style={[centerSelf, googleSigninButton]}
+                        size={GoogleSigninButton.Size.Wide}
+                        color={GoogleSigninButton.Color.Dark}
+                        onPress={this.googleSignin}
+                        disabled={this.props.disabled}
+                    />
+                    <Button
+                        onPress={this.facebookSignin}
+                        title='Login With Facebook'
+                        color='#4267b2'
+                        style={facebookSigninButton}
+                    />
+                </View>
+            );
+        }
     }
     
     render() {
