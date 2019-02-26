@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { ImageBackground, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { styles } from './Register.styles';
 import AuthForm from '../AuthForm';
 import { register } from '../Auth.action';
+import { commonStyles } from '../../../Common.style';
 
 class Register extends Component {
     static navigationOptions = {
-        title: 'Register'
+        header: null
     };
 
     constructor() {
@@ -18,12 +21,25 @@ class Register extends Component {
     }
 
     render() {
+        const { majorContainer } = styles;
+        const { verticalCenter } = commonStyles;
         return (
-            <AuthForm
-                onPrimaryPress={this.onRegisterPress}
-                errorMessage={this.props.errorMessage}
-                loading={this.props.loading ? 'true' : ''}
-            />
+            <ImageBackground
+                source={require('./../../../images/bg1.jpg')}
+                style={[majorContainer, verticalCenter]}
+            >
+                <KeyboardAvoidingView>
+                    <ScrollView>
+                        <AuthForm
+                            onPrimaryPress={this.onRegisterPress}
+                            errorMessage={this.props.errorMessage}
+                            loading={this.props.loading ? 'true' : ''}
+                        />
+                    </ScrollView>  
+                </KeyboardAvoidingView>
+                
+            </ImageBackground>
+            
         );
     }
 }

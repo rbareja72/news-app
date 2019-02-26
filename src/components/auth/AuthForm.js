@@ -3,7 +3,6 @@ import { Text, View, KeyboardAvoidingView } from 'react-native';
 import {
     register,
     emailLabel,
-    emailPlaceholder,
     passwordLabel,
     passwordPlaceholder,
     login,
@@ -11,6 +10,7 @@ import {
 import { Card, CardSection, Input, Button, Spinner } from './../common';
 import { styles } from './AuthForm.style';
 import { commonStyles } from '../../Common.style';
+import { colors } from './../../Colors.config';
 
 export default class AuthForm extends Component {
     
@@ -42,11 +42,16 @@ export default class AuthForm extends Component {
     }
 
     renderRegister() {
+        const { transparentBackground, buttonStyle, noBorder } = styles;
         const { fontLarge } = commonStyles;
         if (this.props.login) {
             return (
-                <CardSection>
-                    <Button onPress={this.props.onSecondaryPress} textStyle={fontLarge}>
+                <CardSection style={[transparentBackground, noBorder]} >
+                    <Button
+                        onPress={this.props.onSecondaryPress}
+                        textStyle={[fontLarge, buttonStyle]}
+                        buttonStyle={[transparentBackground, buttonStyle]}
+                    >
                         {register}
                     </Button>
                 </CardSection>
@@ -55,11 +60,16 @@ export default class AuthForm extends Component {
     }
     renderButton() {
         const { fontLarge } = commonStyles;
+        const { transparentBackground, buttonStyle } = styles;
         if (this.props.loading) {
             return <Spinner size='large' />;
         }
         return (
-            <Button onPress={this.onSubmit} textStyle={fontLarge}>
+            <Button
+                onPress={this.onSubmit}
+                textStyle={[fontLarge, buttonStyle]}
+                buttonStyle={[transparentBackground, buttonStyle]}
+            >
                 {this.props.login ? login : register}
             </Button>
         );
@@ -77,30 +87,35 @@ export default class AuthForm extends Component {
         }
     }
     render() {
-        const { textContainerStyle } = styles;
+        const { textContainerStyle, transparentBackground, textColor, noBorder } = styles;
         const { fontLarge } = commonStyles;
         return (
-            <KeyboardAvoidingView>
-                <Card>
-                    <CardSection>
+            <View
+                contentContainerStyle={transparentBackground}
+            >
+                <Card style={[transparentBackground, noBorder]}>
+                    <CardSection style={[transparentBackground, noBorder]}>
                         <Input 
                             label={emailLabel}
-                            placeholder={emailPlaceholder}
                             onRef={(ref) => {
                                 this.inputs.email = ref;
                             }}
                             onSubmitEditing={() => {
                                 this.moveFocusTo('password');
                             }}
-                            labelStyle={fontLarge}
-                            inputStyle={fontLarge}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
                             containerStyle={textContainerStyle}
                             returnKeyType={'next'}
                             blurOnSubmit={false}
                             onChangeText={(text) => this.onInputChange({ email: text })}
-                        />
+                        />    
                     </CardSection>
-                    <CardSection>
+                    
+                    <CardSection style={[transparentBackground, noBorder]}>
                         <Input 
                             label={passwordLabel}
                             placeholder={passwordPlaceholder}
@@ -108,20 +123,23 @@ export default class AuthForm extends Component {
                             onRef={(ref) => {
                                 this.inputs.password = ref;
                             }}
-                            labelStyle={fontLarge}
-                            inputStyle={fontLarge}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
                             containerStyle={textContainerStyle}
                             onSubmitEditing={this.onSubmit}
                             onChangeText={(text) => this.onInputChange({ password: text })}
                         />
                     </CardSection>
                     {this.renderError()}
-                    <CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
                         {this.renderButton()}
                     </CardSection>
                     {this.renderRegister()}
                 </Card>
-            </KeyboardAvoidingView>
+            </View>
         );
     }
 }

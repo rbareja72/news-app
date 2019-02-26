@@ -11,5 +11,7 @@ export const colors = {
     headingColor: 'black',
     textShadowColorConfig: 'rgba(0, 0, 0, 0.75)',
     boxShadowColorConfig: '#000',
-    linkColor: 'blue'
+    linkColor: 'blue',
+    textColor: 'white',
+    textInputColor: 'white'
 };

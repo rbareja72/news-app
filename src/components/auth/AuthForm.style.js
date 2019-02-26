@@ -4,7 +4,8 @@ import { colors } from './../../Colors.config';
 const {
     errorMessageColor,
     errorMessageContainerBorderColor,
-    errorMessageContainerBackgroundColor
+    errorMessageContainerBackgroundColor,
+    textColor
 } = colors;
 export const styles = {
     errorMessage: {
@@ -24,5 +25,19 @@ export const styles = {
     },
     textContainerStyle: {
         height: verticalScale(50)
+    },
+    transparentBackground: {
+        backgroundColor: 'rgba(0,0,0,0)'
+    },
+    noBorder: {
+        borderColor: 'rgba(0,0,0,0)',
+        shadowOpacity: 0,       
+    },
+    buttonStyle: {
+        borderColor: 'white',
+        color: 'white'
+    }, 
+    textColor: {
+        color: textColor
     }
 };

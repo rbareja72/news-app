@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Button } from 'react-native';
+import { View, Text, TouchableOpacity, ImageBackground, KeyboardAvoidingView, ScrollView, NetInfo } from 'react-native';
 import { GoogleSigninButton, GoogleSignin } from 'react-native-google-signin';
+import SnackBar from 'react-native-snackbar';
 import { connect } from 'react-redux';
-import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import { AccessToken } from 'react-native-fbsdk';
 import { styles } from './Login.style';
 import { Spinner } from './../../common';
 import AuthForm from '../AuthForm';
@@ -12,7 +13,7 @@ import { commonStyles } from '../../../Common.style';
 
 class Login extends Component {
     static navigationOptions = {
-        title: 'Login',
+        header: null
     };
 
     constructor() {
@@ -53,6 +54,15 @@ class Login extends Component {
                 });     
             }
         });
+        NetInfo.addEventListener('connectionChange', (connectionInfo) => {
+            console.log(connectionInfo.type);
+            if (connectionInfo.type === 'none') {
+                SnackBar.show({
+                    title: 'No Internet Connection',
+                    duration: SnackBar.LENGTH_LONG
+                });
+            }
+        });
     }
 
     onLoginPress(email, password) {
@@ -72,8 +82,12 @@ class Login extends Component {
     }
 
     renderLoginForm() {
-        const { centerSelf } = commonStyles;
-        const { googleSigninButton, facebookSigninButton, loaderContainer } = styles;
+        const { centerSelf, fill, row } = commonStyles;
+        const {
+            googleSigninButton,
+            loaderContainer,
+            facebookSigninButtonText
+        } = styles;
         if (this.props.loading) {
             return (
                 <View style={[loaderContainer]}>
@@ -83,7 +97,11 @@ class Login extends Component {
         } 
         if (!this.props.disabled) {
             return (
-                <View>
+                <KeyboardAvoidingView
+                    behavior="postion"
+                    keyboardVerticalOffset='0'
+                >
+                    <ScrollView>
                     <AuthForm
                         login
                         onPrimaryPress={this.onLoginPress}
@@ -98,26 +116,36 @@ class Login extends Component {
                         onPress={this.googleSignin}
                         disabled={this.props.disabled}
                     />
-                    <Button
-                        onPress={this.facebookSignin}
-                        title='Login With Facebook'
-                        color='#4267b2'
-                        style={facebookSigninButton}
-                    />
-                </View>
+                    
+                    <View style={[row, centerSelf]}>
+                        <TouchableOpacity
+                            onPress={this.facebookSignin}
+                        >
+                            <View style={[centerSelf]}>
+                                <Text style={[facebookSigninButtonText]}>Login With facebook</Text>        
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+
+                    </ScrollView>
+                </KeyboardAvoidingView>
             );
         }
     }
     
     render() {
         const { majorContainer } = styles;
+        const { verticalCenter } = commonStyles;
         if (this.state.token !== '') {
             return <Spinner size='large' />;
         } 
         return (
-            <View style={ majorContainer }>
-                {this.renderLoginForm()}
-            </View>
+            <ImageBackground
+                source={require('./../../../images/bg1.jpg')}
+                style={[majorContainer, verticalCenter]}
+            >
+            {this.renderLoginForm()}   
+            </ImageBackground>
         );
     }
 }

@@ -19,20 +19,18 @@ const SlideFromRight = (index, position, width) => {
 const TransitionConfiguration = () => {
     return {
         transitionSpec: {
-            duration: 750,
+            duration: 500,
             easing: Easing.out(Easing.poly(4)),
             timing: Animated.timing,
             useNativeDriver: true,
         },
         screenInterpolator: (sceneProps) => {
             const { layout, position, scene } = sceneProps;
-            const width = layout.initWidth;
-            const { index, route } = scene;
-            const params = route.params || {}; // <- That's new
-            const transition = params.transition; // <- That's new
-            return {
-                slideFromRight: SlideFromRight(index, position, width),
-            }['slideFromRight'];
+            return SlideFromRight(
+                scene.index,
+                position,
+                layout.initWidth
+            );
         }
     };
 };
@@ -50,9 +48,9 @@ const AuthStackNavigator = createStackNavigator(
               gesturesEnabled: false
             },
             gesturesEnabled: false
-          },
-          gesturesEnabled: false,
-          transitionConfig: TransitionConfiguration,
+        },
+        gesturesEnabled: false,
+        transitionConfig: TransitionConfiguration,
     }
 );
 const MainStackNavigator = createStackNavigator(
