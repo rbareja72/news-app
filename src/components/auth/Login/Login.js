@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, KeyboardAvoidingView, ScrollView, NetInfo } from 'react-native';
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    ImageBackground,
+    KeyboardAvoidingView,
+    ScrollView
+} from 'react-native';
 import { GoogleSigninButton, GoogleSignin } from 'react-native-google-signin';
-import SnackBar from 'react-native-snackbar';
 import { connect } from 'react-redux';
 import { AccessToken } from 'react-native-fbsdk';
 import { styles } from './Login.style';
@@ -10,6 +16,7 @@ import AuthForm from '../AuthForm';
 import { login, googleLogin, googleLoginSilently, facebookLogin } from './../Auth.action';
 import { getItem } from './../../../services/BaseStorageService';
 import { commonStyles } from '../../../Common.style';
+import Toast from 'react-native-easy-toast';
 
 class Login extends Component {
     static navigationOptions = {
@@ -29,60 +36,71 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        getItem('token').then((value) => {
-            if (value && value !== '') {
-                getItem('loginType').then((loginType) => {
-                    switch (loginType) {
-                        case '1':
-                            this.props.navigation.navigate('main');
-                            break;
-                        case '2':
-                            GoogleSignin.isSignedIn().then((isSignedIn) => {
-                                if (isSignedIn) {
-                                    this.props.googleLoginSilently(this.props.navigation);        
-                                }
-                            });
-                            break;
-                        case '3':
-                            AccessToken.getCurrentAccessToken().then((data) => {
-                                if (data && data.accessToken) {
-                                    this.props.navigation.navigate('main');
-                                }
-                            });
-                            break;
-                    }
-                });     
-            }
-        });
-        NetInfo.addEventListener('connectionChange', (connectionInfo) => {
-            console.log(connectionInfo.type);
-            if (connectionInfo.type === 'none') {
-                SnackBar.show({
-                    title: 'No Internet Connection',
-                    duration: SnackBar.LENGTH_LONG
-                });
-            }
-        });
+        if (this.props.isConnected) {
+            getItem('token').then((value) => {
+                if (value && value !== '') {
+                    getItem('loginType').then((loginType) => {
+                        switch (loginType) {
+                            case '1':
+                                this.props.navigation.navigate('main');
+                                break;
+                            case '2':
+                                GoogleSignin.isSignedIn().then((isSignedIn) => {
+                                    if (isSignedIn) {
+                                        this.props.googleLoginSilently(this.props.navigation);
+                                    }
+                                });
+                                break;
+                            case '3':
+                                AccessToken.getCurrentAccessToken().then((data) => {
+                                    if (data && data.accessToken) {
+                                        this.props.navigation.navigate('main');
+                                    }
+                                });
+                                break;
+                        }
+                    });     
+                }
+            });
+        } else {
+            this.refs.toast.show('No InternetConnection');
+        }
     }
 
     onLoginPress(email, password) {
-        this.props.login(email, password, this.props.navigation);
+        if (this.props.isConnected) {
+            this.props.login(email, password, this.props.navigation);
+        } else {
+            this.refs.toast.show('No InternetConnection');
+        }        
     }
 
     onRegisterPress() {
-        this.props.navigation.navigate('register');
+        if (this.props.isConnected) {
+            this.props.navigation.navigate('register');
+        } else {
+            this.refs.toast.show('No InternetConnection');
+        }        
     }
 
     googleSignin() {
-        this.props.googleLogin(this.props.navigation);    
+        if (this.props.isConnected) {
+            this.props.googleLogin(this.props.navigation);    
+        } else {
+            this.refs.toast.show('No InternetConnection');
+        }
     }
 
     facebookSignin() {
-        this.props.facebookLogin(this.props.navigation);
+        if (this.props.isConnected) {
+            this.props.facebookLogin(this.props.navigation);
+        } else {
+            this.refs.toast.show('No InternetConnection');
+        }
     }
 
     renderLoginForm() {
-        const { centerSelf, fill, row } = commonStyles;
+        const { centerSelf, row } = commonStyles;
         const {
             googleSigninButton,
             loaderContainer,
@@ -102,30 +120,30 @@ class Login extends Component {
                     keyboardVerticalOffset='0'
                 >
                     <ScrollView>
-                    <AuthForm
-                        login
-                        onPrimaryPress={this.onLoginPress}
-                        onSecondaryPress={this.onRegisterPress}
-                        errorMessage={this.props.errorMessage}
-                        loading={this.props.loading ? 'true' : ''}
-                    />
-                    <GoogleSigninButton
-                        style={[centerSelf, googleSigninButton]}
-                        size={GoogleSigninButton.Size.Wide}
-                        color={GoogleSigninButton.Color.Dark}
-                        onPress={this.googleSignin}
-                        disabled={this.props.disabled}
-                    />
-                    
-                    <View style={[row, centerSelf]}>
-                        <TouchableOpacity
-                            onPress={this.facebookSignin}
-                        >
-                            <View style={[centerSelf]}>
-                                <Text style={[facebookSigninButtonText]}>Login With facebook</Text>        
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                        <AuthForm
+                            login
+                            onPrimaryPress={this.onLoginPress}
+                            onSecondaryPress={this.onRegisterPress}
+                            errorMessage={this.props.errorMessage}
+                            loading={this.props.loading ? 'true' : ''}
+                        />
+                        <GoogleSigninButton
+                            style={[centerSelf, googleSigninButton]}
+                            size={GoogleSigninButton.Size.Wide}
+                            color={GoogleSigninButton.Color.Dark}
+                            onPress={this.googleSignin}
+                            disabled={this.props.disabled}
+                        />
+                        
+                        <View style={[row, centerSelf]}>
+                            <TouchableOpacity
+                                onPress={this.facebookSignin}
+                            >
+                                <View style={[centerSelf]}>
+                                    <Text style={[facebookSigninButtonText]}>Login With facebook</Text>        
+                                </View>
+                            </TouchableOpacity>
+                        </View>
 
                     </ScrollView>
                 </KeyboardAvoidingView>
@@ -144,7 +162,8 @@ class Login extends Component {
                 source={require('./../../../images/bg1.jpg')}
                 style={[majorContainer, verticalCenter]}
             >
-            {this.renderLoginForm()}   
+                {this.renderLoginForm()}   
+                <Toast ref='toast' position='bottom' />
             </ImageBackground>
         );
     }
@@ -152,7 +171,8 @@ class Login extends Component {
 
 const mapStateToProps = (state) => {
     const { token, errorMessage, loading, disabled } = state.auth;
-    return { token, errorMessage, loading, disabled };
+    const { isConnected } = state.network;
+    return { token, errorMessage, loading, disabled, isConnected };
 };
 
 const mapDispatchToProps = (dispatch) => {

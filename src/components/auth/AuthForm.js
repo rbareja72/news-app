@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Text, View } from 'react-native';
 import {
     register,
     emailLabel,
@@ -89,6 +89,7 @@ export default class AuthForm extends Component {
     render() {
         const { textContainerStyle, transparentBackground, textColor, noBorder } = styles;
         const { fontLarge } = commonStyles;
+        
         return (
             <View
                 contentContainerStyle={transparentBackground}

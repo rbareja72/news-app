@@ -7,12 +7,14 @@ import {
     ScrollView,
     TouchableWithoutFeedback
 } from 'react-native';
+import { connect } from 'react-redux';
+import Toast from 'react-native-easy-toast';
 import { readMore } from './NewsDetail.config';
 import { commonStyles } from '../../../Common.style';
 import { styles } from './NewsDetail.style';
 
 
-export default class NewsDetail extends Component {
+class NewsDetail extends Component {
     static navigationOptions() {
         return {
             header: null
@@ -111,9 +113,13 @@ export default class NewsDetail extends Component {
                 </View>
                 <View style={[fill, textContainer]}>
                     <TouchableWithoutFeedback
-                        onPress={() => this.props.navigation.navigate('webView', {
-                            url
-                        })}
+                        onPress={() => {
+                            if (this.props.isConnected) {
+                                this.props.navigation.navigate('webView', { url });
+                            } else {
+                                this.refs.toast.show('No Internet Connection');
+                            }
+                        }}
                     >
                         <Text style={[heading, fontLarge, headingColor, underline]}>{title}</Text>
                     </TouchableWithoutFeedback>
@@ -130,7 +136,12 @@ export default class NewsDetail extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+                <Toast position='bottom' ref='toast' />
             </ScrollView>
         );
     }
 }
+
+const mapStateToProps = (state) => state.network.isConnected;
+
+export default connect(mapStateToProps)(NewsDetail);

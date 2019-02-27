@@ -1,5 +1,10 @@
 import { Easing, Animated, } from 'react-native';  
-import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { connect } from 'react-redux';
+import {
+    createAppContainer,
+    createStackNavigator,
+    createSwitchNavigator
+} from 'react-navigation';
 import Login from './components/auth/Login/Login';
 import Register from './components/auth/Register/Register';
 import NewsList from './components/main/NewsList/NewsList';
