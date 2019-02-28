@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { ToolbarAndroid, FlatList, View, CameraRoll } from 'react-native';
+import { FlatList, View, TouchableOpacity, Image } from 'react-native';
+import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
-import { Spinner } from '../../common';
+import { Spinner, Header } from '../../common';
 import { getNews } from './../News.action';
 import { signOut } from './../../auth/Auth.action';
+import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
 import { commonStyles } from './../../../Common.style';
+
 
 class NewsList extends Component {
     static navigationOptions() { 
@@ -21,7 +24,9 @@ class NewsList extends Component {
         this.onActionSelected = this.onActionSelected.bind(this);
     }
 
-    state = {};
+    state = {
+        image: null
+    };
 
     componentDidMount() {
         if (this.props.isConnected) {
@@ -29,12 +34,14 @@ class NewsList extends Component {
         } else {
             this.refs.toast.show('No Internet Connection');
         }        
+        this.fetchImage();
+        this.updateImage = this.updateImage.bind(this);
     }
 
     componentWillUnmount() {
         if (this.props.isConnected) {
             this.props.signOut();
-        }        
+        }
     }
 
     onActionSelected(position) {
@@ -54,33 +61,65 @@ class NewsList extends Component {
         }        
     }
 
-    updateImage() {
-        //CameraRoll.getPhotos()
+    updateImage() {        
+        ImageCropPicker.openPicker({
+            width: 300,
+            height: 300,
+            cropping: true,
+            includeBase64: true
+        }).then(image => {
+            const imageString = `data: ${image.mime};base64,${image.data}`;
+            setItem('profilePhoto', imageString);
+            this.setState({ image: imageString });
+        });
+    }
+
+    async fetchImage() {
+        const image = await getItem('profilePhoto');
+        if (image) {
+            this.setState({ image });    
+        }
+        
     }
 
     render() {
         const {
             fill,
             column,
-            boxShadow,
-            verticalCenter
+            verticalCenter,
+            row,
+            circle
         } = commonStyles;       
+        const {
+            headerIconContainerStyle,
+            headerIconStyle
+        } = styles;
         if (this.props.loaded) {
             return (
                 <View style={[column, fill]}>
-                    <ToolbarAndroid
-                        title='News'
-                        actions={[{
-                            title: 'Sign Out',
-                            show: 'never'
-                        },{
-                            title:'Profile Image',
-                            icon: require('./../../../images/user.png'),
-                            show: 'always'
-                        }]}
-                        style={[styles.headerStyle, boxShadow]}
-                        onActionSelected={this.onActionSelected}
-                    />
+                    <Header
+                        headerText='News'
+                    >
+                        <View style={row}>
+                            <View style={headerIconContainerStyle}>
+                                <TouchableOpacity onPress={this.updateImage} >
+                                    <Image
+                                        style={[headerIconStyle, circle]}
+                                        source={
+                                          this.state.image ? { uri: this.state.image } : require('./../../../images/user.png')}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={headerIconContainerStyle}>
+                                <TouchableOpacity>
+                                    <Image
+                                        style={headerIconStyle}
+                                        source={require('./../../../images/overflow.png')}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </Header>
                     <View style={[fill]}>
                         <FlatList
                             data={this.props.news}
