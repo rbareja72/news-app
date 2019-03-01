@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ImageBackground, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { ImageBackground, KeyboardAvoidingView, ScrollView, BackHandler } from 'react-native';
 import Toast from 'react-native-easy-toast';
+import { INITIAL } from './../Types';
 import { styles } from './Register.styles';
 import AuthForm from '../AuthForm';
 import { register } from '../Auth.action';
@@ -15,6 +16,17 @@ class Register extends Component {
     constructor() {
         super();
         this.onRegisterPress = this.onRegisterPress.bind(this);
+    }
+
+    componentDidMount() {
+        this.onBackPress = BackHandler.addEventListener('hardwareBackPress', () => {
+            this.props.restoreDefault();
+            return false;
+        });
+    }
+    
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
     onRegisterPress(email, password) {
@@ -38,7 +50,6 @@ class Register extends Component {
             >
                 <KeyboardAvoidingView>
                     <ScrollView>
-                        <View></View>
                         <AuthForm
                             onPrimaryPress={this.onRegisterPress}
                             errorMessage={this.props.errorMessage}
@@ -61,7 +72,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        register: (email, password, navigation) => register(dispatch, email, password, navigation)
+        register: (email, password, navigation) => register(dispatch, email, password, navigation),
+        restoreDefault: () => dispatch({
+            type: INITIAL
+        })
     };
 }
 

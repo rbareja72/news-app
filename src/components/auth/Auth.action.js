@@ -124,7 +124,7 @@ export const googleLogin = async (dispatch, navigation) => {
     try {
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-        setItem('gToken', userInfo.accessToken).then(() => {
+        setItem('token', userInfo.accessToken).then(() => {
             dispatch({
                 type: SIGN_IN_SUCCESS,
                 payload: { token: userInfo.accessToken, loginType: '2' }
@@ -149,7 +149,7 @@ export const googleLoginSilently = async (dispatch, navigation) => {
     try {
         await GoogleSignin.hasPlayServices();
         const currUser = await GoogleSignin.signInSilently();
-        setItem('gToken', currUser.accessToken).then(() => {
+        setItem('token', currUser.accessToken).then(() => {
             dispatch({
                 type: SIGN_IN_SUCCESS,
                 payload: { token: currUser.accessToken, loginType: '2' }

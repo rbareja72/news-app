@@ -142,6 +142,9 @@ class NewsDetail extends Component {
     }
 }
 
-const mapStateToProps = (state) => state.network.isConnected;
+const mapStateToProps = (state) => {
+    const { isConnected } = state.network;
+    return { isConnected };
+};
 
 export default connect(mapStateToProps)(NewsDetail);

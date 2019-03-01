@@ -4,8 +4,8 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
-import { Spinner, Header } from '../../common';
-import { getNews } from './../News.action';
+import { Spinner, Header, ActionMenu } from '../../common';
+import { getNews, toggleMenu } from './../News.action';
 import { signOut } from './../../auth/Auth.action';
 import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
@@ -21,7 +21,9 @@ class NewsList extends Component {
 
     constructor() {
         super();
-        this.onActionSelected = this.onActionSelected.bind(this);
+        this.onActionButtonPress = this.onActionButtonPress.bind(this);
+        this.onActionItemSelect = this.onActionItemSelect.bind(this);
+        this.updateImage = this.updateImage.bind(this);
     }
 
     state = {
@@ -35,33 +37,39 @@ class NewsList extends Component {
             this.refs.toast.show('No Internet Connection');
         }        
         this.fetchImage();
-        this.updateImage = this.updateImage.bind(this);
     }
 
     componentWillUnmount() {
-        if (this.props.isConnected) {
-            this.props.signOut();
-        }
+        
     }
 
-    onActionSelected(position) {
+    onActionButtonPress() {
+        this.props.toggleMenu(true);
+    }
+
+    onActionItemSelect(index) {
+        this.props.toggleMenu(false);
         if (this.props.isConnected) {
-            switch (position) {
+            switch (index) {
                 case 0: 
                     this.props.signOut(this.props.navigation);
-                    break;
-                case 1:
-                    this.updateImage();
                     break;
                 default:
                     return;
             }
         } else {
             this.refs.toast.show('No Internet Connection');
-        }        
+        }
     }
 
-    updateImage() {        
+    async fetchImage() {
+        const image = await getItem('profilePhoto');
+        if (image) {
+            this.setState({ image });    
+        }
+    }
+
+    updateImage() {
         ImageCropPicker.openPicker({
             width: 300,
             height: 300,
@@ -74,12 +82,21 @@ class NewsList extends Component {
         });
     }
 
-    async fetchImage() {
-        const image = await getItem('profilePhoto');
-        if (image) {
-            this.setState({ image });    
-        }
-        
+    renderActionMenu() {
+        const menuItems = [
+            {
+                value: 'Sign Out',
+                key: '0'
+            }
+        ];      
+        return (
+            <ActionMenu
+                visible={this.props.modalVisible}
+                data={menuItems}
+                onItemSelect={this.onActionItemSelect}
+                onBackPress={this.onBackPress}
+            />
+        );
     }
 
     render() {
@@ -111,7 +128,7 @@ class NewsList extends Component {
                                 </TouchableOpacity>
                             </View>
                             <View style={headerIconContainerStyle}>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={this.onActionButtonPress}>
                                     <Image
                                         style={headerIconStyle}
                                         source={require('./../../../images/overflow.png')}
@@ -134,6 +151,7 @@ class NewsList extends Component {
                         />
                     </View>
                     <Toast ref='toast' position='bottom' />
+                    {this.renderActionMenu()}
                 </View>
             );
         }
@@ -152,7 +170,7 @@ class NewsList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { loaded, extraData } = state.news;
+    const { loaded, extraData, modalVisible } = state.news;
     const { isConnected } = state.network;
     const { token } = state.auth;
     let { news } = state.news;
@@ -160,13 +178,14 @@ const mapStateToProps = (state) => {
         n.key = n.publishedAt;
         return n;
     });
-    return { loaded, extraData, news, token, isConnected };
+    return { loaded, extraData, news, token, isConnected, modalVisible };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getNews: () => getNews(dispatch),
-        signOut: (navigation) => signOut(dispatch, navigation)
+        signOut: (navigation) => signOut(dispatch, navigation),
+        toggleMenu: (visibility) => toggleMenu(dispatch, visibility)
     };
 };
 

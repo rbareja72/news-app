@@ -5,6 +5,7 @@ import {
     SIGN_UP_FAIL,
     SIGN_OUT,
     AUTH_START,
+    INITIAL
 } from './Types';
 
 /**
@@ -45,6 +46,7 @@ export const AuthReducer = (state = INITIAL_STATE, action) => {
         case SIGN_UP_FAIL:
             return { ...state, loading: false, errorMessage: action.payload, disabled: false };
         case SIGN_OUT:
+        case INITIAL:
             return { ...INITIAL_STATE };
         default: 
             return state;

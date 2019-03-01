@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { GoogleSigninButton, GoogleSignin } from 'react-native-google-signin';
 import { connect } from 'react-redux';
+import Toast from 'react-native-easy-toast';
 import { AccessToken } from 'react-native-fbsdk';
 import { styles } from './Login.style';
 import { Spinner } from './../../common';
@@ -16,7 +17,8 @@ import AuthForm from '../AuthForm';
 import { login, googleLogin, googleLoginSilently, facebookLogin } from './../Auth.action';
 import { getItem } from './../../../services/BaseStorageService';
 import { commonStyles } from '../../../Common.style';
-import Toast from 'react-native-easy-toast';
+import { INITIAL } from '../Types';
+
 
 class Login extends Component {
     static navigationOptions = {
@@ -40,6 +42,7 @@ class Login extends Component {
             getItem('token').then((value) => {
                 if (value && value !== '') {
                     getItem('loginType').then((loginType) => {
+                        console.log(loginType);                        
                         switch (loginType) {
                             case '1':
                                 this.props.navigation.navigate('main');
@@ -62,8 +65,6 @@ class Login extends Component {
                     });     
                 }
             });
-        } else {
-            this.refs.toast.show('No InternetConnection');
         }
     }
 
@@ -76,6 +77,7 @@ class Login extends Component {
     }
 
     onRegisterPress() {
+        this.props.restoreDefault();
         if (this.props.isConnected) {
             this.props.navigation.navigate('register');
         } else {
@@ -140,11 +142,10 @@ class Login extends Component {
                                 onPress={this.facebookSignin}
                             >
                                 <View style={[centerSelf]}>
-                                    <Text style={[facebookSigninButtonText]}>Login With facebook</Text>        
+                                    <Text style={[facebookSigninButtonText]}>Login With facebook</Text>
                                 </View>
                             </TouchableOpacity>
-                        </View>
-
+                        </View> 
                     </ScrollView>
                 </KeyboardAvoidingView>
             );
@@ -180,7 +181,10 @@ const mapDispatchToProps = (dispatch) => {
         login: (email, password, navigation) => login(dispatch, email, password, navigation),
         googleLogin: (navigation) => googleLogin(dispatch, navigation),
         googleLoginSilently: (navigation) => googleLoginSilently(dispatch, navigation),
-        facebookLogin: (navigation) => facebookLogin(dispatch, navigation)
+        facebookLogin: (navigation) => facebookLogin(dispatch, navigation),
+        restoreDefault: () => dispatch({
+            type: INITIAL
+        })
     };
 };
 

@@ -1,5 +1,5 @@
 import { fetchNews } from './../../services/NewsFetch.service';
-import { FETCH_NEWS } from './Types';
+import { FETCH_NEWS, TOGGLE_ACTION_MENU } from './Types';
 
 export const getNews = async (dispatch) => {
     let news;
@@ -15,3 +15,11 @@ export const getNews = async (dispatch) => {
         throw err;
     }
 };
+
+export const toggleMenu = (dispatch, visibility) => {
+    dispatch({
+        type: TOGGLE_ACTION_MENU,
+        payload: visibility
+    });
+};
+
