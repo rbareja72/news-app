@@ -42,7 +42,6 @@ class Login extends Component {
             getItem('token').then((value) => {
                 if (value && value !== '') {
                     getItem('loginType').then((loginType) => {
-                        console.log(loginType);                        
                         switch (loginType) {
                             case '1':
                                 this.props.navigation.navigate('main');

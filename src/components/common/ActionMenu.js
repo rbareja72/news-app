@@ -11,10 +11,6 @@ import { moderateScale } from 'react-native-size-matters';
 
 class ActionMenu extends React.PureComponent {
 
-    onBackPress() {
-        console.log('hereinmenu');        
-    }
-
     render() {
         const { visible, data, onItemSelect } = this.props;
         const { listContainer, listItemContainer, textStyle, modalView, otherArea } = styles;
