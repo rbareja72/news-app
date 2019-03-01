@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Picker from 'react-native-picker-select';
 import {
     register,
     emailLabel,
@@ -24,7 +25,8 @@ export default class AuthForm extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        gender: 'm'
     };
     onInputChange(values) {
         const keys = Object.keys(values);
@@ -86,10 +88,70 @@ export default class AuthForm extends Component {
             );
         }
     }
+
+    renderPicker() {
+        const { transparentBackground, noBorder } = styles;
+        const genders = [
+            {
+                label: 'Mr.',
+                value: 'm',
+                key: 'm'
+            },
+            {
+                label: 'Mrs.',
+                value: 'f',
+                key: 'f'
+            }
+        ];
+        if (!this.props.login) {
+            return (
+                <CardSection style={[ transparentBackground, noBorder]}>
+                    <View style={{flex:1}}>
+                        <Picker
+                            items={genders}
+                            onValueChange={(value) => {
+                                this.setState({
+                                    gender: value
+                                });
+                            }}
+                            value={this.state.gender}
+                            placeholderTextColor='white'
+                            Icon={() => {
+                                return (
+                                    <View
+                                        style={{
+                                            backgroundColor: 'transparent',
+                                            borderTopWidth: 10,
+                                            borderTopColor: 'white',
+                                            borderRightWidth: 10,
+                                            borderRightColor: 'transparent',
+                                            borderLeftWidth: 10,
+                                            marginTop: 25,
+                                            marginRight: 10,
+                                            borderLeftColor: 'transparent',
+                                            width: 0,
+                                            height: 0,
+                                        }}
+                                    />
+                                );
+                            }}
+                            style={{
+                                inputAndroid: {
+                                    color: 'white',
+                                    borderColor: 'white',
+                                    borderWidth: 1
+                                }
+                            }}
+                        />
+                    </View>
+                </CardSection>
+            );
+        }
+    }
+
     render() {
         const { textContainerStyle, transparentBackground, textColor, noBorder } = styles;
         const { fontLarge } = commonStyles;
-        
         return (
             <View
                 contentContainerStyle={transparentBackground}
@@ -115,7 +177,6 @@ export default class AuthForm extends Component {
                             onChangeText={(text) => this.onInputChange({ email: text })}
                         />    
                     </CardSection>
-                    
                     <CardSection style={[transparentBackground, noBorder]}>
                         <Input 
                             label={passwordLabel}
@@ -134,6 +195,7 @@ export default class AuthForm extends Component {
                             onChangeText={(text) => this.onInputChange({ password: text })}
                         />
                     </CardSection>
+                    {this.renderPicker()}
                     {this.renderError()}
                     <CardSection style={[transparentBackground, noBorder]}>
                         {this.renderButton()}

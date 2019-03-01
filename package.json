@@ -16,6 +16,7 @@
     "react-native-image-crop-picker": "^0.23.0",
     "react-native-material-textfield": "^0.12.0",
     "react-native-permissions": "^1.1.1",
+    "react-native-picker-select": "^6.0.0",
     "react-native-size-matters": "^0.1.6",
     "react-native-snackbar": "^0.5.5",
     "react-native-webview": "^5.2.1",

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { ImageBackground, KeyboardAvoidingView, ScrollView, BackHandler } from 'react-native';
+import {
+    ImageBackground,
+    KeyboardAvoidingView,
+    ScrollView,
+    BackHandler,
+    Picker
+} from 'react-native';
 import Toast from 'react-native-easy-toast';
 import { INITIAL } from './../Types';
 import { styles } from './Register.styles';
@@ -55,6 +61,7 @@ class Register extends Component {
                             errorMessage={this.props.errorMessage}
                             loading={this.props.loading ? 'true' : ''}
                         />
+                        
                     </ScrollView>  
                 </KeyboardAvoidingView>
                 <Toast position='bottom' ref='toast' />
