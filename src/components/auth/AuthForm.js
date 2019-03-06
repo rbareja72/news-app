@@ -179,6 +179,246 @@ export default class AuthForm extends Component {
                     </CardSection>
                     <CardSection style={[transparentBackground, noBorder]}>
                         <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
+                            label={emailLabel}
+                            onRef={(ref) => {
+                                this.inputs.email = ref;
+                            }}
+                            onSubmitEditing={() => {
+                                this.moveFocusTo('password');
+                            }}
+                            textColor={colors.textInputColor}
+                            tintColor={colors.textInputColor}
+                            baseColor={colors.textInputColor}
+                            labelStyle={[fontLarge, textColor]}
+                            inputStyle={[fontLarge, textColor]}
+                            containerStyle={textContainerStyle}
+                            returnKeyType={'next'}
+                            blurOnSubmit={false}
+                            onChangeText={(text) => this.onInputChange({ email: text })}
+                        />    
+                    </CardSection>
+                    <CardSection style={[transparentBackground, noBorder]}>
+                        <Input 
                             label={passwordLabel}
                             placeholder={passwordPlaceholder}
                             secureTextEntry

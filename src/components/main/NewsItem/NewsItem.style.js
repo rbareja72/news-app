@@ -11,5 +11,8 @@ export const styles = {
     dateContainer: {
         flexDirection: 'row',
         alignItems: 'baseline'
+    },
+    circleIos: {
+        borderRadius: moderateScale(37)
     }
 };

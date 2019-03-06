@@ -103,6 +103,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {
@@ -135,7 +136,6 @@ android {
 
 dependencies {
     implementation project(':react-native-image-crop-picker')
-    implementation project(':react-native-snackbar')
     implementation project(':react-native-fbsdk')
     implementation project(':react-native-google-signin')
     implementation project(':react-native-webview')

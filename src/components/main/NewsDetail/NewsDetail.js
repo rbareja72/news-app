@@ -5,7 +5,8 @@ import {
     Text,
     TouchableOpacity,
     ScrollView,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    SafeAreaView
 } from 'react-native';
 import { connect } from 'react-redux';
 import Toast from 'react-native-easy-toast';
@@ -103,7 +104,7 @@ class NewsDetail extends Component {
             imageStyle
         } = styles;
         return (
-            
+            <SafeAreaView>
             <ScrollView style={[column]}>
                 <View style={[column]}>
                     <Image
@@ -138,6 +139,7 @@ class NewsDetail extends Component {
                 </View>
                 <Toast position='bottom' ref='toast' />
             </ScrollView>
+            </SafeAreaView>
         );
     }
 }

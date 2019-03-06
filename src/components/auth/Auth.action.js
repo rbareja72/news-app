@@ -77,7 +77,6 @@ export const register = async (dispatch, email, password, navigation) => {
     } catch (err) {
         throw err;
     }
-    
     if (response && response.token) {
         setItem('token', response.token).then(() => {
             dispatch({
@@ -85,6 +84,8 @@ export const register = async (dispatch, email, password, navigation) => {
                 payload: { token: response.token, loginType: '1' }
             });
             navigation.navigate('main');
+            setItem('token', response.token);
+        setItem('loginType', '1');
         });
     } else {
         dispatch({

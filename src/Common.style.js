@@ -45,8 +45,11 @@ const commonStyles = {
         fontSize: 15,
         textDecorationLine: 'underline'
     },
-    circle: {
+    circleAndroid: {
         borderRadius: moderateScale(50)
+    },
+    circleIos: {
+        borderRadius: moderateScale(12)
     },
     underline: {
         textDecorationLine: 'underline'

@@ -5,7 +5,9 @@ import {
     TouchableOpacity,
     ImageBackground,
     KeyboardAvoidingView,
-    ScrollView
+    ScrollView,
+    Platform,
+    SafeAreaView
 } from 'react-native';
 import { GoogleSigninButton, GoogleSignin } from 'react-native-google-signin';
 import { connect } from 'react-redux';
@@ -107,6 +109,7 @@ class Login extends Component {
             loaderContainer,
             facebookSigninButtonText
         } = styles;
+        const keyboardOffset = Platform.OS === 'ios' ? '40' : '0';
         if (this.props.loading) {
             return (
                 <View style={[loaderContainer]}>
@@ -116,9 +119,10 @@ class Login extends Component {
         } 
         if (!this.props.disabled) {
             return (
+                <SafeAreaView>
                 <KeyboardAvoidingView
-                    behavior="postion"
-                    keyboardVerticalOffset='0'
+                    behavior='padding'
+                    keyboardVerticalOffset={keyboardOffset}
                 >
                     <ScrollView>
                         <AuthForm
@@ -147,6 +151,7 @@ class Login extends Component {
                         </View> 
                     </ScrollView>
                 </KeyboardAvoidingView>
+                </SafeAreaView>
             );
         }
     }

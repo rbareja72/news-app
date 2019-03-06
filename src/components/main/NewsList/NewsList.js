@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, TouchableOpacity, Image } from 'react-native';
+import { FlatList, View, TouchableOpacity, Image, SafeAreaView, Platform } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
@@ -10,7 +10,6 @@ import { signOut } from './../../auth/Auth.action';
 import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
 import { commonStyles } from './../../../Common.style';
-
 
 class NewsList extends Component {
     static navigationOptions() { 
@@ -105,15 +104,18 @@ class NewsList extends Component {
             column,
             verticalCenter,
             row,
-            circle
+            circleAndroid,
+            circleIos
         } = commonStyles;       
         const {
             headerIconContainerStyle,
             headerIconStyle
         } = styles;
+        const circleStyle = Platform.OS === 'ios' ? circleIos : circleAndroid;
         if (this.props.loaded) {
             return (
-                <View style={[column, fill]}>
+            
+                <SafeAreaView style={[column, fill]}>
                     <Header
                         headerText='News'
                     >
@@ -121,9 +123,9 @@ class NewsList extends Component {
                             <View style={headerIconContainerStyle}>
                                 <TouchableOpacity onPress={this.updateImage} >
                                     <Image
-                                        style={[headerIconStyle, circle]}
+                                        style={[headerIconStyle, circleStyle]}
                                         source={
-                                          this.state.image ? { uri: this.state.image } : require('./../../../images/user.png')}
+                                          this.state.image != null ? { uri: this.state.image } : require('./../../../images/user.png')}
                                     />
                                 </TouchableOpacity>
                             </View>
@@ -152,7 +154,7 @@ class NewsList extends Component {
                     </View>
                     <Toast ref='toast' position='bottom' />
                     {this.renderActionMenu()}
-                </View>
+                </SafeAreaView>
             );
         }
         return (
@@ -163,8 +165,7 @@ class NewsList extends Component {
                     />
                 </View>
                 <Toast ref='toast' position='bottom' />
-            </View>
-            
+            </View>   
         );       
     }
 }

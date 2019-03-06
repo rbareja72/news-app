@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Text, View, TouchableWithoutFeedback } from 'react-native';
+import { Image, Text, View, TouchableWithoutFeedback, Platform } from 'react-native';
 import { Card } from './../../common';
 import { styles } from './NewsItem.style';
 import { commonStyles } from './../../../Common.style';
@@ -10,7 +10,8 @@ export default class NewsItem extends Component {
             imageStyle,
             parentContainer,
             titleContainer,
-            dateContainer
+            dateContainer,
+            circleIos
         } = styles;
         const {
             verticalCenter,
@@ -18,14 +19,15 @@ export default class NewsItem extends Component {
             fill,
             heading,
             headingColor,
-            circle,
-            fontSmall
+            fontSmall,
+            circleAndroid,
         } = commonStyles;
         const {
             title,
             publishedAt,
-            urlToImage
+            urlToImage,
         } = this.props.news;
+        const circleStyle = Platform.OS === 'ios' ? circleIos : circleAndroid;
         return (
             <Card>
                 <TouchableWithoutFeedback
@@ -41,7 +43,7 @@ export default class NewsItem extends Component {
                                         { uri: urlToImage } :
                                         require('./../../../images/default.png')
                                     }
-                                style={[circle, imageStyle, verticalCenter]}
+                                style={[circleStyle, imageStyle, verticalCenter]}
                             />
                         </View>
                         <View style={[fill, parentContainer]}>
