@@ -110,6 +110,7 @@ class Login extends Component {
             facebookSigninButtonText
         } = styles;
         const keyboardOffset = Platform.OS === 'ios' ? '40' : '0';
+        const keyboardBehavior = Platform.OS === 'ios' ? '' : '';
         if (this.props.loading) {
             return (
                 <View style={[loaderContainer]}>
@@ -121,7 +122,7 @@ class Login extends Component {
             return (
                 <SafeAreaView>
                 <KeyboardAvoidingView
-                    behavior='padding'
+                    behavior={keyboardBehavior}
                     keyboardVerticalOffset={keyboardOffset}
                 >
                     <ScrollView>

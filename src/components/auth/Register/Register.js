@@ -46,6 +46,8 @@ class Register extends Component {
     render() {
         const { majorContainer } = styles;
         const { verticalCenter } = commonStyles;
+        const keyboardOffset = Platform.OS === 'ios' ? '40' : '0';
+        const keyboardBehavior = Platform.OS === 'ios' ? '' : '';
         if (!this.props.isConnected) {
             this.refs.toast.show('No Internet Connection');
         }
@@ -54,7 +56,10 @@ class Register extends Component {
                 source={require('./../../../images/bg1.jpg')}
                 style={[majorContainer, verticalCenter]}
             >
-                <KeyboardAvoidingView>
+                <KeyboardAvoidingView
+                    behavior={keyboardBehavior}
+                    keyboardVerticalOffset={keyboardOffset}
+                >
                     <ScrollView>
                         <AuthForm
                             onPrimaryPress={this.onRegisterPress}
