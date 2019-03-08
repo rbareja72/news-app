@@ -78,6 +78,11 @@ class NewsList extends Component {
             const imageString = `data: ${image.mime};base64,${image.data}`;
             setItem('profilePhoto', imageString);
             this.setState({ image: imageString });
+        }, (error) => {
+                if (error.code === 'E_PERMISSION_MISSING') {
+                    alert('No Permission to access photos.'  
+                    + 'To upload profile picture, app requires permissoin to access photo.');
+                }
         });
     }
 
