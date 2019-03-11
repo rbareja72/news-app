@@ -39,5 +39,31 @@ export const styles = {
     }, 
     textColor: {
         color: textColor
+    },
+    dropDownIcon: {
+        backgroundColor: 'transparent',
+        borderTopWidth: 10,
+        borderTopColor: 'white',
+        borderRightWidth: 10,
+        borderRightColor: 'transparent',
+        borderLeftWidth: 10,
+        marginTop: 20,
+        marginRight: 10,
+        borderLeftColor: 'transparent',
+        width: 0,
+        height: 0,
+    },
+    
+    inputAndroid: {
+        color: 'white',
+        borderColor: 'white',
+        borderWidth: 1
+    },
+    inputIOS: {
+        color: 'white',
+        borderColor: 'white',
+        borderWidth: 1,
+        height: 40,
+        paddingLeft: 10
     }
 };

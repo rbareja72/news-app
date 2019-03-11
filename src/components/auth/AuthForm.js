@@ -90,7 +90,8 @@ export default class AuthForm extends Component {
     }
 
     renderPicker() {
-        const { transparentBackground, noBorder } = styles;
+        const { transparentBackground, noBorder, dropDownIcon, inputAndroid, inputIOS } = styles;
+        const { fill } = commonStyles;
         const genders = [
             {
                 label: 'Mr.',
@@ -105,8 +106,8 @@ export default class AuthForm extends Component {
         ];
         if (!this.props.login) {
             return (
-                <CardSection style={[ transparentBackground, noBorder]}>
-                    <View style={{flex:1}}>
+                <CardSection style={[transparentBackground, noBorder]}>
+                    <View style={fill}>
                         <Picker
                             items={genders}
                             onValueChange={(value) => {
@@ -116,32 +117,18 @@ export default class AuthForm extends Component {
                             }}
                             value={this.state.gender}
                             placeholderTextColor='white'
-                            Icon={() => {
-                                return (
+                            Icon={() => (
                                     <View
-                                        style={{
-                                            backgroundColor: 'transparent',
-                                            borderTopWidth: 10,
-                                            borderTopColor: 'white',
-                                            borderRightWidth: 10,
-                                            borderRightColor: 'transparent',
-                                            borderLeftWidth: 10,
-                                            marginTop: 25,
-                                            marginRight: 10,
-                                            borderLeftColor: 'transparent',
-                                            width: 0,
-                                            height: 0,
-                                        }}
+                                        style={dropDownIcon}
                                     />
-                                );
-                            }}
+                                )
+                            }
                             style={{
-                                inputAndroid: {
-                                    color: 'white',
-                                    borderColor: 'white',
-                                    borderWidth: 1
-                                }
+                                inputAndroid,
+                                inputIOS
                             }}
+                            onSubmitEditing={this.onSubmit}
+                            ref='picker'
                         />
                     </View>
                 </CardSection>
@@ -191,7 +178,13 @@ export default class AuthForm extends Component {
                             tintColor={colors.textInputColor}
                             baseColor={colors.textInputColor}
                             containerStyle={textContainerStyle}
-                            onSubmitEditing={this.onSubmit}
+                            onSubmitEditing={() => {
+                                if (this.props.login) {
+                                    this.onSubmit();
+                                } else {
+                                    this.refs.picker.togglePicker();
+                                }                                
+                            }}
                             onChangeText={(text) => this.onInputChange({ password: text })}
                         />
                     </CardSection>

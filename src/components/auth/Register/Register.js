@@ -5,7 +5,11 @@ import {
     KeyboardAvoidingView,
     ScrollView,
     BackHandler,
-    Picker
+    Platform,
+    View,
+    Text,
+    TouchableOpacity,
+    SafeAreaView
 } from 'react-native';
 import Toast from 'react-native-easy-toast';
 import { INITIAL } from './../Types';
@@ -44,34 +48,49 @@ class Register extends Component {
     }
 
     render() {
-        const { majorContainer } = styles;
-        const { verticalCenter } = commonStyles;
+        const {
+            majorContainer,
+            backButtonContainer,
+            backButtonText,
+            backButtonTextContainer,
+            safeAreaStyle
+        } = styles;
+        const { verticalCenter, textShadow, fontXLarge } = commonStyles;
         const keyboardOffset = Platform.OS === 'ios' ? '40' : '0';
         const keyboardBehavior = Platform.OS === 'ios' ? '' : '';
         if (!this.props.isConnected) {
             this.refs.toast.show('No Internet Connection');
         }
         return (
-            <ImageBackground
-                source={require('./../../../images/bg1.jpg')}
-                style={[majorContainer, verticalCenter]}
-            >
-                <KeyboardAvoidingView
-                    behavior={keyboardBehavior}
-                    keyboardVerticalOffset={keyboardOffset}
+            <SafeAreaView style={safeAreaStyle}>   
+                <ImageBackground
+                    source={require('./../../../images/bg1.jpg')}
+                    style={[majorContainer, verticalCenter]}
                 >
-                    <ScrollView>
-                        <AuthForm
-                            onPrimaryPress={this.onRegisterPress}
-                            errorMessage={this.props.errorMessage}
-                            loading={this.props.loading ? 'true' : ''}
-                        />
-                        
-                    </ScrollView>  
-                </KeyboardAvoidingView>
-                <Toast position='bottom' ref='toast' />
-            </ImageBackground>
-            
+                    <KeyboardAvoidingView
+                        behavior={keyboardBehavior}
+                        keyboardVerticalOffset={keyboardOffset}
+                    >
+                        <ScrollView>
+                            <AuthForm
+                                onPrimaryPress={this.onRegisterPress}
+                                errorMessage={this.props.errorMessage}
+                                loading={this.props.loading ? 'true' : ''}
+                            />
+                        </ScrollView>  
+                    </KeyboardAvoidingView>
+                    <Toast position='bottom' ref='toast' />
+                    <View style={[backButtonContainer]}>
+                        <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                            <View style={[backButtonTextContainer]}>
+                                <Text style={[backButtonText, textShadow, fontXLarge]}>
+                                    &lt;
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
+            </SafeAreaView >
         );
     }
 }
