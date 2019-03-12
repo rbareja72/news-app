@@ -11,6 +11,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTRootView.h>
 #import "RNGoogleSignin.h"
+#import "RNSplashScreen.h"
 
 @implementation AppDelegate
 
@@ -33,6 +34,7 @@
   [self.window makeKeyAndVisible];
   [[FBSDKApplicationDelegate sharedInstance] application:application
                            didFinishLaunchingWithOptions:launchOptions];
+  [RNSplashScreen show];
   return YES;
 }
   

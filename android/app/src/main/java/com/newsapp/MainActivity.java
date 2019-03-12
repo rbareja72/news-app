@@ -1,13 +1,21 @@
 package com.newsapp;
 
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
+
+    @Override
+    protected void onCreate(Bundle b) {
+      SplashScreen.show(this);
+      super.onCreate(b);
+    }
     /**
      * Returns the name of the main component registered from JavaScript.
      * This is used to schedule rendering of the component.
