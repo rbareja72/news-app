@@ -22,5 +22,16 @@ export const styles = {
         height: undefined,
         width: '100%',
         aspectRatio: 135 / 76 
-    }
+    },
+    shareButtonContainer: {
+        position: 'absolute',
+        alignSelf: 'flex-end',
+        elevation: 1,
+    },
+    shareButtonTextContainer: {
+        paddingVertical: 10
+    },
+    shareButtonText: {
+        color: backButtonColor,
+    },
 };
