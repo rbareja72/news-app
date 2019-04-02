@@ -1,5 +1,4 @@
 import { Easing, Animated, } from 'react-native';  
-import { connect } from 'react-redux';
 import {
     createAppContainer,
     createStackNavigator,
@@ -21,8 +20,8 @@ const SlideFromRight = (index, position, width) => {
     return slideFromRight;
 };
     
-const TransitionConfiguration = () => {
-    return {
+const TransitionConfiguration = () => (
+    {
         transitionSpec: {
             duration: 500,
             easing: Easing.out(Easing.poly(4)),
@@ -37,8 +36,8 @@ const TransitionConfiguration = () => {
                 layout.initWidth
             );
         }
-    };
-};
+    }
+);
 
 
 const AuthStackNavigator = createStackNavigator(

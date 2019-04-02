@@ -9,6 +9,9 @@ target 'newsapp' do
  
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+
+  pod 'RNBackgroundFetch', :path => '../node_modules/react-native-background-fetch'
+
   target 'newsappTests' do
     inherit! :search_paths
     # Pods for testing

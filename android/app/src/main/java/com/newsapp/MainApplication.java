@@ -3,6 +3,8 @@ package com.newsapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.transistorsoft.rnbackgroundfetch.RNBackgroundFetchPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -37,6 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNBackgroundFetchPackage(),
+            new ReactNativePushNotificationPackage(),
             new SplashScreenReactPackage(),
             new PickerPackage(),
             new FBSDKPackage(mCallbackManager),

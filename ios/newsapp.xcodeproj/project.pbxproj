@@ -34,6 +34,7 @@
 		2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E941DF850E9000B6D8A /* libRCTText-tvOS.a */; };
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D346BBD2237A49400C7B06A /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D346BBC2237A46600C7B06A /* libSplashScreen.a */; };
+		2D7E9EB7224E3F5200C550E2 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D7E9EB4224E3F4700C550E2 /* libRCTPushNotification.a */; };
 		2DB309AB222F8F0800EFE764 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB309AA222F8F0800EFE764 /* RSKImageCropper.framework */; };
 		2DB309AC222F8F0800EFE764 /* RSKImageCropper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB309AA222F8F0800EFE764 /* RSKImageCropper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2DB309AE222F8F0800EFE764 /* QBImagePicker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB309AD222F8F0800EFE764 /* QBImagePicker.framework */; };
@@ -56,13 +57,13 @@
 		2DB30A29222FCC4800EFE764 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DB3099A222F890500EFE764 /* libimageCropPicker.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* newsappTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* newsappTests.m */; };
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
+		2ECD77A89AC946E082D54E2C /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B918F5EEEAEC48DEAE82DD29 /* RNBackgroundFetch+AppDelegate.m */; };
 		46A9568EA4E84B2295883597 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CD5D1CFAFFA4FA3A32A76F0 /* FBSDKCoreKit.framework */; };
-		4F7F7B07220ACA59EFEE3B44 /* Pods_newsappTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF36059781655F2FD18F6EB0 /* Pods_newsappTests.framework */; };
+		492C624221EE4EF7BA6E62B6 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 429F525B6EEA4C7780825E75 /* TSBackgroundFetch.framework */; };
 		5FC177151032429084489656 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A37DE7B4D69349F981AA6C97 /* FBSDKShareKit.framework */; };
 		77FAC394FEE345B39F6920F5 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5651E33750E424DAD3FB1EC /* FBSDKLoginKit.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
-		E681EAFF937F0721F261B671 /* Pods_newsapp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC64540D6B0BC393BD446778 /* Pods_newsapp.framework */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D7682761D8E76B80014119E;
 			remoteInfo = SplashScreen;
+		};
+		2D7E9EB3224E3F4700C550E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D7E9EAE224E3F4700C550E2 /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTPushNotification;
+		};
+		2D7E9EB5224E3F4700C550E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2D7E9EAE224E3F4700C550E2 /* RCTPushNotification.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D05745F1DE6004600184BB4;
+			remoteInfo = "RCTPushNotification-tvOS";
 		};
 		2DB30987222F890400EFE764 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -424,6 +439,7 @@
 		2D02E47B1E0B4A5D006451C7 /* newsapp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "newsapp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* newsapp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "newsapp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D346B8D2237A46600C7B06A /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
+		2D7E9EAE224E3F4700C550E2 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		2D7F07542237771100B5F169 /* GTMSessionFetcher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GTMSessionFetcher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB309AA222F8F0800EFE764 /* RSKImageCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RSKImageCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DB309AD222F8F0800EFE764 /* QBImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = QBImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -442,6 +458,7 @@
 		2DB309D1222F936400EFE764 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		2DB30A1B222FBB0200EFE764 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		3A2D00C3CEA39B33E764A02B /* Pods-newsapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsapp.debug.xcconfig"; path = "Target Support Files/Pods-newsapp/Pods-newsapp.debug.xcconfig"; sourceTree = "<group>"; };
+		429F525B6EEA4C7780825E75 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = SDKROOT; };
 		44233A4929ED4DA9B1EF1583 /* libRNSnackbar.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSnackbar.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -452,14 +469,13 @@
 		9F9D87166EA68769391D3D9E /* Pods-newsappTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsappTests.release.xcconfig"; path = "Target Support Files/Pods-newsappTests/Pods-newsappTests.release.xcconfig"; sourceTree = "<group>"; };
 		A37DE7B4D69349F981AA6C97 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ./ios/Frameworks/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		B918F5EEEAEC48DEAE82DD29 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
 		B9C485B0A6BFE32C4AC54991 /* Pods-newsapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsapp.release.xcconfig"; path = "Target Support Files/Pods-newsapp/Pods-newsapp.release.xcconfig"; sourceTree = "<group>"; };
 		BD8616C1090C4E30B0B49268 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		BE9ADFA144F4467BB5E2BF63 /* RNCWebView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNCWebView.xcodeproj; path = "../node_modules/react-native-webview/ios/RNCWebView.xcodeproj"; sourceTree = "<group>"; };
 		D5651E33750E424DAD3FB1EC /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ./ios/Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		DD5CDCD9EBE74BC595C88B1A /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
-		EC64540D6B0BC393BD446778 /* Pods_newsapp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsapp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		EF36059781655F2FD18F6EB0 /* Pods_newsappTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_newsappTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4A993FC96986A249AA9672C /* Pods-newsappTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-newsappTests.debug.xcconfig"; path = "Target Support Files/Pods-newsappTests/Pods-newsappTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FE0E1D304F444935949C9D36 /* imageCropPicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = imageCropPicker.xcodeproj; path = "../node_modules/react-native-image-crop-picker/ios/imageCropPicker.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -470,7 +486,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				4F7F7B07220ACA59EFEE3B44 /* Pods_newsappTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +495,7 @@
 			files = (
 				2DB309D4222F936500EFE764 /* Bolts.framework in Frameworks */,
 				2DB30A28222FC8BF00EFE764 /* libRNCWebView.a in Frameworks */,
+				2D7E9EB7224E3F5200C550E2 /* libRCTPushNotification.a in Frameworks */,
 				2DB309CB222F91F100EFE764 /* SafariServices.framework in Frameworks */,
 				2DB309C9222F91E700EFE764 /* libz.tbd in Frameworks */,
 				2DB309C7222F91E000EFE764 /* SystemConfiguration.framework in Frameworks */,
@@ -511,7 +527,7 @@
 				46A9568EA4E84B2295883597 /* FBSDKCoreKit.framework in Frameworks */,
 				5FC177151032429084489656 /* FBSDKShareKit.framework in Frameworks */,
 				77FAC394FEE345B39F6920F5 /* FBSDKLoginKit.framework in Frameworks */,
-				E681EAFF937F0721F261B671 /* Pods_newsapp.framework in Frameworks */,
+				492C624221EE4EF7BA6E62B6 /* TSBackgroundFetch.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,6 +647,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				2DB309C2222F91A900EFE764 /* GoogleSignIn.bundle */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				B918F5EEEAEC48DEAE82DD29 /* RNBackgroundFetch+AppDelegate.m */,
 			);
 			name = newsapp;
 			sourceTree = "<group>";
@@ -675,9 +692,8 @@
 				1CD5D1CFAFFA4FA3A32A76F0 /* FBSDKCoreKit.framework */,
 				A37DE7B4D69349F981AA6C97 /* FBSDKShareKit.framework */,
 				D5651E33750E424DAD3FB1EC /* FBSDKLoginKit.framework */,
-				EC64540D6B0BC393BD446778 /* Pods_newsapp.framework */,
-				EF36059781655F2FD18F6EB0 /* Pods_newsappTests.framework */,
 				2D7F07542237771100B5F169 /* GTMSessionFetcher.framework */,
+				429F525B6EEA4C7780825E75 /* TSBackgroundFetch.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -686,6 +702,15 @@
 			isa = PBXGroup;
 			children = (
 				2D346BBC2237A46600C7B06A /* libSplashScreen.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2D7E9EAF224E3F4700C550E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2D7E9EB4224E3F4700C550E2 /* libRCTPushNotification.a */,
+				2D7E9EB6224E3F4700C550E2 /* libRCTPushNotification-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -769,6 +794,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				2D7E9EAE224E3F4700C550E2 /* RCTPushNotification.xcodeproj */,
 				2D346B8D2237A46600C7B06A /* SplashScreen.xcodeproj */,
 				2DB30A1B222FBB0200EFE764 /* RNGestureHandler.xcodeproj */,
 				2DB309B7222F913800EFE764 /* RNGoogleSignin.xcodeproj */,
@@ -928,6 +954,13 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = true;
+							};
+						};
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -982,6 +1015,10 @@
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
+				},
+				{
+					ProductGroup = 2D7E9EAF224E3F4700C550E2 /* Products */;
+					ProjectRef = 2D7E9EAE224E3F4700C550E2 /* RCTPushNotification.xcodeproj */;
 				},
 				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
@@ -1113,6 +1150,20 @@
 			fileType = archive.ar;
 			path = libSplashScreen.a;
 			remoteRef = 2D346BBB2237A46600C7B06A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2D7E9EB4224E3F4700C550E2 /* libRCTPushNotification.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTPushNotification.a;
+			remoteRef = 2D7E9EB3224E3F4700C550E2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		2D7E9EB6224E3F4700C550E2 /* libRCTPushNotification-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRCTPushNotification-tvOS.a";
+			remoteRef = 2D7E9EB5224E3F4700C550E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		2DB30988222F890400EFE764 /* libjsi.a */ = {
@@ -1383,7 +1434,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1460,6 +1511,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				2ECD77A89AC946E082D54E2C /* RNBackgroundFetch+AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1513,7 +1565,10 @@
 			baseConfigurationReference = F4A993FC96986A249AA9672C /* Pods-newsappTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1557,7 +1612,10 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
@@ -1598,7 +1656,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
@@ -1629,7 +1690,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
@@ -1665,7 +1729,10 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1712,7 +1779,10 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1758,7 +1828,10 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1804,7 +1877,10 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Frameworks/",
+					"$(PROJECT_DIR)/../node_modules/react-native-background-fetch/ios/**",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
