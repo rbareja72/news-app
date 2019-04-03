@@ -1,4 +1,5 @@
 import { colors } from './../../../Colors.config';
+import { moderateScale } from 'react-native-size-matters';
 
 const {
     backButtonColor
@@ -7,13 +8,15 @@ export const styles = {
     backButtonContainer: {
         position: 'absolute',
         alignSelf: 'flex-start',
-        elevation: 1 
+        elevation: 1 ,
+        paddingTop: moderateScale(10)
     },
     backButtonTextContainer: {
         paddingHorizontal: '15%'
     },
-    backButtonText: {
-        color: backButtonColor,   
+    backButtonStyle: {
+        width: moderateScale(25),
+        height: moderateScale(25),
     },
     textContainer: {
         padding: '2%',

@@ -4,8 +4,8 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
-import { Spinner, Header, ActionMenu } from '../../common';
-import { getNews, toggleMenu } from './../News.action';
+import { HeaderWithSearch, ActionMenu } from '../../common';
+import { getNews, toggleMenu, refreshNews, fetchMoreNews } from './../News.action';
 import { signOut } from './../../auth/Auth.action';
 import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
@@ -30,16 +30,12 @@ class NewsList extends Component {
     };
 
     componentDidMount() {
-        if (this.props.isConnected) {
-            this.props.getNews();
+        if (this.props.isConnected) {       
+            this.props.getNews(1);
         } else {
             this.refs.toast.show('No Internet Connection');
         }        
         this.fetchImage();
-    }
-
-    componentWillUnmount() {
-        
     }
 
     onActionButtonPress() {
@@ -107,7 +103,6 @@ class NewsList extends Component {
         const {
             fill,
             column,
-            verticalCenter,
             row,
             circleAndroid,
             circleIos
@@ -117,66 +112,60 @@ class NewsList extends Component {
             headerIconStyle
         } = styles;
         const circleStyle = Platform.OS === 'ios' ? circleIos : circleAndroid;
-        if (this.props.loaded) {
-            return (
-            
-                <SafeAreaView style={[column, fill]}>
-                    <Header
-                        headerText='News'
-                    >
-                        <View style={row}>
-                            <View style={headerIconContainerStyle}>
-                                <TouchableOpacity onPress={this.updateImage} >
-                                    <Image
-                                        style={[headerIconStyle, circleStyle]}
-                                        source={
-                                          this.state.image != null ? { uri: this.state.image } : require('./../../../images/user.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={headerIconContainerStyle}>
-                                <TouchableOpacity onPress={this.onActionButtonPress}>
-                                    <Image
-                                        style={headerIconStyle}
-                                        source={require('./../../../images/overflow.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Header>
-                    <View style={[fill]}>
-                        <FlatList
-                            data={this.props.news}
-                            extraData={this.props.extraData}
-                            renderItem={
-                                ({ item }) =>
-                                    <NewsItem
-                                        navigation={this.props.navigation}
-                                        news={item}
-                                    />
-                            }
-                        />
-                    </View>
-                    <Toast ref='toast' position='bottom' />
-                    {this.renderActionMenu()}
-                </SafeAreaView>
-            );
-        }
         return (
-            <View style={[fill]}>
-                <View style={[fill, verticalCenter ]}>
-                    <Spinner 
-                        size='large'
+            <SafeAreaView style={[column, fill]}>
+                <HeaderWithSearch
+                    headerText='News'
+                    enableSearch
+                >
+                    <View style={[row]}>
+                        <View style={headerIconContainerStyle}>
+                            <TouchableOpacity onPress={this.updateImage} >
+                                <Image
+                                    style={[headerIconStyle, circleStyle]}
+                                    source={
+                                        this.state.image != null ? 
+                                        { uri: this.state.image } : 
+                                        require('./../../../images/user.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={headerIconContainerStyle}>
+                            <TouchableOpacity onPress={this.onActionButtonPress}>
+                                <Image
+                                    style={headerIconStyle}
+                                    source={require('./../../../images/overflow.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </HeaderWithSearch>
+                <View style={[fill]}>
+                    <FlatList
+                        data={this.props.news}
+                        extraData={this.props.extraData}
+                        onRefresh={this.props.refreshNews}
+                        refreshing={!this.props.loaded}
+                        onEndReachedThreshold="0"
+                        onEndReached={() => this.props.fetchMoreNews(this.props.page)}
+                        renderItem={
+                            ({ item }) =>
+                                <NewsItem
+                                    navigation={this.props.navigation}
+                                    news={item}
+                                />
+                        }
                     />
                 </View>
                 <Toast ref='toast' position='bottom' />
-            </View>   
-        );       
+                {this.renderActionMenu()}
+            </SafeAreaView>
+        );   
     }
 }
 
 const mapStateToProps = (state) => {
-    const { loaded, extraData, modalVisible } = state.news;
+    const { loaded, extraData, modalVisible, page } = state.news;
     const { isConnected } = state.network;
     const { token } = state.auth;
     let { news } = state.news;
@@ -184,15 +173,15 @@ const mapStateToProps = (state) => {
         n.key = n.publishedAt;
         return n;
     });
-    return { loaded, extraData, news, token, isConnected, modalVisible };
+    return { loaded, extraData, news, token, isConnected, modalVisible, page };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getNews: () => getNews(dispatch),
+const mapDispatchToProps = dispatch => ({
+        getNews: (page) => getNews(dispatch, page),
+        refreshNews: () => refreshNews(dispatch),
+        fetchMoreNews: (page) => fetchMoreNews(dispatch, page),
         signOut: (navigation) => signOut(dispatch, navigation),
         toggleMenu: (visibility) => toggleMenu(dispatch, visibility)
-    };
-};
+    });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsList);

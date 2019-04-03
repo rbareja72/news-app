@@ -43,15 +43,20 @@ class NewsDetail extends Component {
         this.setState({ isReadMore: false });
     }
 
-    renderReadMore() {
-        const { linkBlue, fontSmall } = commonStyles;
-        if (this.state.isReadMore) {
-            return (
-                <TouchableOpacity onPress={this.onReadMore}>
-                    <Text style={[linkBlue, fontSmall]}>{readMore}</Text>
-                </TouchableOpacity>
-            );
-        }        
+    shareNews() {
+        const {
+            title,
+            url,
+        } = this.props.navigation.getParam('newsItem');
+        const store = Platform.OS === 'ios' ? 'Apple App store' : 'Android Play Store';
+        const message = 'Read the article: ' + 
+            `\"${title}\" on the following link.\n\n` +
+            `${url}\n\n` + 
+            `Download the News app from ${store}`;
+        Share.share({
+            message,
+            title: 'Share To'
+        });
     }
 
     renderContent(content) {
@@ -78,20 +83,15 @@ class NewsDetail extends Component {
         );
     }
 
-    shareNews() {
-        const {
-            title,
-            url,
-        } = this.props.navigation.getParam('newsItem');
-        const store = Platform.OS === 'ios' ? 'Apple App store' : 'Android Play Store';
-        const message = 'Read the article: ' + 
-            `\"${title}\" on the following link.\n\n` +
-            `${url}\n\n` + 
-            `Download the News app from ${store}`;
-        Share.share({
-            message,
-            title: 'Share To'
-        });
+    renderReadMore() {
+        const { linkBlue, fontSmall } = commonStyles;
+        if (this.state.isReadMore) {
+            return (
+                <TouchableOpacity onPress={this.onReadMore}>
+                    <Text style={[linkBlue, fontSmall]}>{readMore}</Text>
+                </TouchableOpacity>
+            );
+        }
     }
 
     render() {
@@ -109,7 +109,6 @@ class NewsDetail extends Component {
             column,
             fill,
             fontLarge,
-            fontXLarge,
             fontSmall,
             textShadow,
             rightAlign,
@@ -117,7 +116,7 @@ class NewsDetail extends Component {
         } = commonStyles;
         const {
             backButtonContainer,
-            backButtonText,
+            backButtonStyle,
             backButtonTextContainer,
             shareButtonContainer,
             shareButtonText,
@@ -153,9 +152,11 @@ class NewsDetail extends Component {
                     <View style={backButtonContainer}>
                         <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
                             <View style={[backButtonTextContainer]}>
-                                <Text style={[backButtonText, textShadow, fontXLarge]}>
-                                    &lt;
-                                </Text>
+                                <Image
+                                    style={backButtonStyle}
+                                    source={require('./../../../images/left-arrow-white.png')}
+
+                                />
                             </View>
                         </TouchableOpacity>
                     </View>
