@@ -2,14 +2,13 @@ import { fetchNews } from './../../services/NewsFetch.service';
 import { FETCH_NEWS, TOGGLE_ACTION_MENU, REFRESH_NEWS, FETCH_MORE_NEWS, NEXT_PAGE } from './Types';
 
 export const getNews = async (dispatch, page = 1) => {
-    let news;
     try {
-        news = await fetchNews(page);   
+        const { news, totalNewsCount } = await fetchNews(page);   
         if (news) {
             if (page > 1) {
                 dispatch({
                     type: FETCH_MORE_NEWS,
-                    payload: news    
+                    payload: news
                 });
                 dispatch({
                     type: NEXT_PAGE
@@ -17,7 +16,7 @@ export const getNews = async (dispatch, page = 1) => {
             } else {
                 dispatch({
                     type: FETCH_NEWS,
-                    payload: news
+                    payload: { news, totalNewsCount }
                 });
             }            
         }        

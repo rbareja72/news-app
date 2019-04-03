@@ -4,12 +4,13 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
-import { HeaderWithSearch, ActionMenu } from '../../common';
+import { HeaderWithSearch, ActionMenu, Spinner } from '../../common';
 import { getNews, toggleMenu, refreshNews, fetchMoreNews } from './../News.action';
 import { signOut } from './../../auth/Auth.action';
 import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
 import { commonStyles } from './../../../Common.style';
+import NoData from './NoData';
 
 class NewsList extends Component {
     static navigationOptions() { 
@@ -148,6 +149,21 @@ class NewsList extends Component {
                         refreshing={!this.props.loaded}
                         onEndReachedThreshold="0"
                         onEndReached={() => this.props.fetchMoreNews(this.props.page)}
+                        ListEmptyComponent={
+                            () => 
+                                <Image
+                                    style={{ width: 400 }}
+                                    source={require('./../../../images/cat.gif')}
+                                />
+                        }
+                        ListFooterComponent={
+                            () => {
+                                if (this.props.totalNewsCount > this.props.news.length) {
+                                    return <Spinner />;
+                                }
+                                return null;
+                            }
+                        }
                         renderItem={
                             ({ item }) =>
                                 <NewsItem
@@ -165,7 +181,7 @@ class NewsList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { loaded, extraData, modalVisible, page } = state.news;
+    const { loaded, extraData, modalVisible, page, totalNewsCount } = state.news;
     const { isConnected } = state.network;
     const { token } = state.auth;
     let { news } = state.news;
@@ -173,7 +189,7 @@ const mapStateToProps = (state) => {
         n.key = n.publishedAt;
         return n;
     });
-    return { loaded, extraData, news, token, isConnected, modalVisible, page };
+    return { loaded, extraData, news, token, isConnected, modalVisible, page, totalNewsCount };
 };
 
 const mapDispatchToProps = dispatch => ({

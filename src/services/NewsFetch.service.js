@@ -5,7 +5,7 @@ export const fetchNews = async (page = 1) => {
     let response;
     try {
         response = await get(`${Urls.newsFetch}&page=${page}`);
-        return response.articles;
+        return { news: response.articles, totalNewsCount: response.totalResults };
     } catch (err) {
         throw err;
     }
