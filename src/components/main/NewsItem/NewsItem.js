@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Image, Text, View, TouchableWithoutFeedback, Platform } from 'react-native';
 import { Card } from './../../common';
 import { styles } from './NewsItem.style';
 import { commonStyles } from './../../../Common.style';
 
-export default class NewsItem extends Component {
+export default class NewsItem extends PureComponent {
     render() {
         const {
             imageStyle,

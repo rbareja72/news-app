@@ -5,12 +5,11 @@ import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
 import { HeaderWithSearch, ActionMenu, Spinner } from '../../common';
-import { getNews, toggleMenu, refreshNews, fetchMoreNews } from './../News.action';
+import { getNews, toggleMenu, refreshNews, fetchMoreNews, clearNews } from './../News.action';
 import { signOut } from './../../auth/Auth.action';
 import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
 import { commonStyles } from './../../../Common.style';
-import NoData from './NoData';
 
 class NewsList extends Component {
     static navigationOptions() { 
@@ -24,6 +23,7 @@ class NewsList extends Component {
         this.onActionButtonPress = this.onActionButtonPress.bind(this);
         this.onActionItemSelect = this.onActionItemSelect.bind(this);
         this.updateImage = this.updateImage.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     state = {
@@ -58,6 +58,13 @@ class NewsList extends Component {
         }
     }
 
+    onSearch(text) {
+        if (this.props.q !== text){
+            this.props.clearNews();
+            this.props.getNews(1, text);
+        }        
+    }
+
     async fetchImage() {
         const image = await getItem('profilePhoto');
         if (image) {
@@ -78,7 +85,7 @@ class NewsList extends Component {
         }, (error) => {
                 if (error.code === 'E_PERMISSION_MISSING') {
                     alert('No Permission to access photos.'  
-                    + 'To upload profile picture, app requires permissoin to access photo.');
+                    + 'To upload profile picture, app requires permission to access photo.');
                 }
         });
     }
@@ -117,6 +124,8 @@ class NewsList extends Component {
             <SafeAreaView style={[column, fill]}>
                 <HeaderWithSearch
                     headerText='News'
+                    onSubmitSearch={this.onSearch}
+                    onSearchBackPress={() => this.onSearch('')}
                     enableSearch
                 >
                     <View style={[row]}>
@@ -145,10 +154,13 @@ class NewsList extends Component {
                     <FlatList
                         data={this.props.news}
                         extraData={this.props.extraData}
-                        onRefresh={this.props.refreshNews}
+                        onRefresh={() => this.props.refreshNews(this.props.q)}
                         refreshing={!this.props.loaded}
-                        onEndReachedThreshold="0"
-                        onEndReached={() => this.props.fetchMoreNews(this.props.page)}
+                        onEndReachedThreshold={0.01}
+                        onEndReached={() => {
+                            console.log('end');
+                            this.props.fetchMoreNews(this.props.page, this.props.q);
+                        }}
                         ListEmptyComponent={
                             () => 
                                 <Image
@@ -181,7 +193,7 @@ class NewsList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { loaded, extraData, modalVisible, page, totalNewsCount } = state.news;
+    const { loaded, extraData, modalVisible, page, totalNewsCount, q } = state.news;
     const { isConnected } = state.network;
     const { token } = state.auth;
     let { news } = state.news;
@@ -189,13 +201,14 @@ const mapStateToProps = (state) => {
         n.key = n.publishedAt;
         return n;
     });
-    return { loaded, extraData, news, token, isConnected, modalVisible, page, totalNewsCount };
+    return { loaded, extraData, news, token, isConnected, modalVisible, page, totalNewsCount, q };
 };
 
 const mapDispatchToProps = dispatch => ({
-        getNews: (page) => getNews(dispatch, page),
-        refreshNews: () => refreshNews(dispatch),
-        fetchMoreNews: (page) => fetchMoreNews(dispatch, page),
+        getNews: (page, q = '') => getNews(dispatch, page, q),
+        clearNews: () => clearNews(dispatch),
+        refreshNews: (q) => refreshNews(dispatch, q),
+        fetchMoreNews: (page, q) => fetchMoreNews(dispatch, page, q),
         signOut: (navigation) => signOut(dispatch, navigation),
         toggleMenu: (visibility) => toggleMenu(dispatch, visibility)
     });

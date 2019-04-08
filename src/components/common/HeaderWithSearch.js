@@ -11,7 +11,8 @@ class HeaderWithSearch extends PureComponent {
     }
 
     state = {
-        isSearchAreaVisible: false
+        isSearchAreaVisible: false,
+        text: ''
     };
 
     onSearchPress() {
@@ -51,7 +52,12 @@ class HeaderWithSearch extends PureComponent {
         if (isSearchAreaVisible) {
             return (
                 <View style={viewStyle}>
-                    <TouchableOpacity onPress={() => this.setState({ isSearchAreaVisible: false })}>
+                    <TouchableOpacity 
+                        onPress={() => {
+                            this.setState({ isSearchAreaVisible: false });
+                            this.props.onSearchBackPress();
+                        }}
+                    >
                         <Image
                             style={headerIconStyle}
                             source={require('./../../images/left-arrow.png')}
@@ -59,8 +65,11 @@ class HeaderWithSearch extends PureComponent {
                     </TouchableOpacity>
                     <TextInput
                         style={searchField}
+                        onChangeText={(text) => this.setState({ text })}
                         placeholder="Enter Search Query..."
-                        onSubmitEditing={() => this.props.onSubmitSearch}
+                        onSubmitEditing={() => {
+                            this.props.onSubmitSearch(this.state.text);
+                        }}
                         ref={this.textInputRef}
                     />
                 </View>
