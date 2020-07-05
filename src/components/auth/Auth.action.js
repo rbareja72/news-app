@@ -77,7 +77,6 @@ export const register = async (dispatch, email, password, navigation) => {
     } catch (err) {
         throw err;
     }
-    
     if (response && response.token) {
         setItem('token', response.token).then(() => {
             dispatch({
@@ -85,6 +84,8 @@ export const register = async (dispatch, email, password, navigation) => {
                 payload: { token: response.token, loginType: '1' }
             });
             navigation.navigate('main');
+            setItem('token', response.token);
+        setItem('loginType', '1');
         });
     } else {
         dispatch({
@@ -124,7 +125,7 @@ export const googleLogin = async (dispatch, navigation) => {
     try {
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-        setItem('gToken', userInfo.accessToken).then(() => {
+        setItem('token', userInfo.accessToken).then(() => {
             dispatch({
                 type: SIGN_IN_SUCCESS,
                 payload: { token: userInfo.accessToken, loginType: '2' }
@@ -149,7 +150,7 @@ export const googleLoginSilently = async (dispatch, navigation) => {
     try {
         await GoogleSignin.hasPlayServices();
         const currUser = await GoogleSignin.signInSilently();
-        setItem('gToken', currUser.accessToken).then(() => {
+        setItem('token', currUser.accessToken).then(() => {
             dispatch({
                 type: SIGN_IN_SUCCESS,
                 payload: { token: currUser.accessToken, loginType: '2' }

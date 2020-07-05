@@ -4,8 +4,9 @@ export const Apis = {
 export const Urls = {
     register: 'https://reqres.in/api/register',
     login: 'https://reqres.in/api/login',
-    newsFetch: `https://newsapi.org/v2/top-headlines?country=in&apiKey=${Apis.news}`
-}
+    newsFetch: `https://newsapi.org/v2/top-headlines?pageSize=10&country=in&apiKey=${Apis.news}`,
+    newsEverything: `https://newsapi.org/v2/everything?pageSize=10&apiKey=${Apis.news}`
+};
 export const googleConfig = {
     scopes: ['https://www.googleapis.com/auth/userinfo.profile'],
     webClientId: '226583581847-jtv6lvlrnnr8hfaskm63nuv2ngfvt6oc.apps.googleusercontent.com',

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import { FlatList, View, TouchableOpacity, Image } from 'react-native';
+import { FlatList, View, TouchableOpacity, Image, SafeAreaView, Platform } from 'react-native';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
 import NewsItem from '../NewsItem/NewsItem';
-import { Spinner, Header } from '../../common';
-import { getNews } from './../News.action';
+import { HeaderWithSearch, ActionMenu, Spinner } from '../../common';
+import { getNews, toggleMenu, refreshNews, fetchMoreNews, clearNews } from './../News.action';
 import { signOut } from './../../auth/Auth.action';
 import { setItem, getItem } from './../../../services/BaseStorageService';
 import { styles } from './NewsList.style';
 import { commonStyles } from './../../../Common.style';
-
 
 class NewsList extends Component {
     static navigationOptions() { 
@@ -21,7 +20,10 @@ class NewsList extends Component {
 
     constructor() {
         super();
-        this.onActionSelected = this.onActionSelected.bind(this);
+        this.onActionButtonPress = this.onActionButtonPress.bind(this);
+        this.onActionItemSelect = this.onActionItemSelect.bind(this);
+        this.updateImage = this.updateImage.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     state = {
@@ -29,39 +31,48 @@ class NewsList extends Component {
     };
 
     componentDidMount() {
-        if (this.props.isConnected) {
-            this.props.getNews();
+        if (this.props.isConnected) {       
+            this.props.getNews(1);
         } else {
             this.refs.toast.show('No Internet Connection');
         }        
         this.fetchImage();
-        this.updateImage = this.updateImage.bind(this);
     }
 
-    componentWillUnmount() {
-        if (this.props.isConnected) {
-            this.props.signOut();
-        }
+    onActionButtonPress() {
+        this.props.toggleMenu(true);
     }
 
-    onActionSelected(position) {
+    onActionItemSelect(index) {
+        this.props.toggleMenu(false);
         if (this.props.isConnected) {
-            switch (position) {
+            switch (index) {
                 case 0: 
                     this.props.signOut(this.props.navigation);
-                    break;
-                case 1:
-                    this.updateImage();
                     break;
                 default:
                     return;
             }
         } else {
             this.refs.toast.show('No Internet Connection');
+        }
+    }
+
+    onSearch(text) {
+        if (this.props.q !== text){
+            this.props.clearNews();
+            this.props.getNews(1, text);
         }        
     }
 
-    updateImage() {        
+    async fetchImage() {
+        const image = await getItem('profilePhoto');
+        if (image) {
+            this.setState({ image });    
+        }
+    }
+
+    updateImage() {
         ImageCropPicker.openPicker({
             width: 300,
             height: 300,
@@ -71,88 +82,118 @@ class NewsList extends Component {
             const imageString = `data: ${image.mime};base64,${image.data}`;
             setItem('profilePhoto', imageString);
             this.setState({ image: imageString });
+        }, (error) => {
+                if (error.code === 'E_PERMISSION_MISSING') {
+                    alert('No Permission to access photos.'  
+                    + 'To upload profile picture, app requires permission to access photo.');
+                }
         });
     }
 
-    async fetchImage() {
-        const image = await getItem('profilePhoto');
-        if (image) {
-            this.setState({ image });    
-        }
-        
+    renderActionMenu() {
+        const menuItems = [
+            {
+                value: 'Sign Out',
+                key: '0'
+            }
+        ];      
+        return (
+            <ActionMenu
+                visible={this.props.modalVisible}
+                data={menuItems}
+                onItemSelect={this.onActionItemSelect}
+                onBackPress={this.onBackPress}
+            />
+        );
     }
 
     render() {
         const {
             fill,
             column,
-            verticalCenter,
             row,
-            circle
+            circleAndroid,
+            circleIos
         } = commonStyles;       
         const {
             headerIconContainerStyle,
             headerIconStyle
         } = styles;
-        if (this.props.loaded) {
-            return (
-                <View style={[column, fill]}>
-                    <Header
-                        headerText='News'
-                    >
-                        <View style={row}>
-                            <View style={headerIconContainerStyle}>
-                                <TouchableOpacity onPress={this.updateImage} >
-                                    <Image
-                                        style={[headerIconStyle, circle]}
-                                        source={
-                                          this.state.image ? { uri: this.state.image } : require('./../../../images/user.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <View style={headerIconContainerStyle}>
-                                <TouchableOpacity>
-                                    <Image
-                                        style={headerIconStyle}
-                                        source={require('./../../../images/overflow.png')}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Header>
-                    <View style={[fill]}>
-                        <FlatList
-                            data={this.props.news}
-                            extraData={this.props.extraData}
-                            renderItem={
-                                ({ item }) =>
-                                    <NewsItem
-                                        navigation={this.props.navigation}
-                                        news={item}
-                                    />
-                            }
-                        />
-                    </View>
-                    <Toast ref='toast' position='bottom' />
-                </View>
-            );
-        }
+        const circleStyle = Platform.OS === 'ios' ? circleIos : circleAndroid;
         return (
-            <View style={[fill]}>
-                <View style={[fill, verticalCenter ]}>
-                    <Spinner 
-                        size='large'
+            <SafeAreaView style={[column, fill]}>
+                <HeaderWithSearch
+                    headerText='News'
+                    onSubmitSearch={this.onSearch}
+                    onSearchBackPress={() => this.onSearch('')}
+                    enableSearch
+                >
+                    <View style={[row]}>
+                        <View style={headerIconContainerStyle}>
+                            <TouchableOpacity onPress={this.updateImage} >
+                                <Image
+                                    style={[headerIconStyle, circleStyle]}
+                                    source={
+                                        this.state.image != null ? 
+                                        { uri: this.state.image } : 
+                                        require('./../../../images/user.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={headerIconContainerStyle}>
+                            <TouchableOpacity onPress={this.onActionButtonPress}>
+                                <Image
+                                    style={headerIconStyle}
+                                    source={require('./../../../images/overflow.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </HeaderWithSearch>
+                <View style={[fill]}>
+                    <FlatList
+                        data={this.props.news}
+                        extraData={this.props.extraData}
+                        onRefresh={() => this.props.refreshNews(this.props.q)}
+                        refreshing={!this.props.loaded}
+                        onEndReachedThreshold={0.01}
+                        onEndReached={() => {
+                            console.log('end');
+                            this.props.fetchMoreNews(this.props.page, this.props.q);
+                        }}
+                        ListEmptyComponent={
+                            () => 
+                                <Image
+                                    style={{ width: 400 }}
+                                    source={require('./../../../images/cat.gif')}
+                                />
+                        }
+                        ListFooterComponent={
+                            () => {
+                                if (this.props.totalNewsCount > this.props.news.length) {
+                                    return <Spinner />;
+                                }
+                                return null;
+                            }
+                        }
+                        renderItem={
+                            ({ item }) =>
+                                <NewsItem
+                                    navigation={this.props.navigation}
+                                    news={item}
+                                />
+                        }
                     />
                 </View>
                 <Toast ref='toast' position='bottom' />
-            </View>
-            
-        );       
+                {this.renderActionMenu()}
+            </SafeAreaView>
+        );   
     }
 }
 
 const mapStateToProps = (state) => {
-    const { loaded, extraData } = state.news;
+    const { loaded, extraData, modalVisible, page, totalNewsCount, q } = state.news;
     const { isConnected } = state.network;
     const { token } = state.auth;
     let { news } = state.news;
@@ -160,14 +201,16 @@ const mapStateToProps = (state) => {
         n.key = n.publishedAt;
         return n;
     });
-    return { loaded, extraData, news, token, isConnected };
+    return { loaded, extraData, news, token, isConnected, modalVisible, page, totalNewsCount, q };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getNews: () => getNews(dispatch),
-        signOut: (navigation) => signOut(dispatch, navigation)
-    };
-};
+const mapDispatchToProps = dispatch => ({
+        getNews: (page, q = '') => getNews(dispatch, page, q),
+        clearNews: () => clearNews(dispatch),
+        refreshNews: (q) => refreshNews(dispatch, q),
+        fetchMoreNews: (page, q) => fetchMoreNews(dispatch, page, q),
+        signOut: (navigation) => signOut(dispatch, navigation),
+        toggleMenu: (visibility) => toggleMenu(dispatch, visibility)
+    });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewsList);

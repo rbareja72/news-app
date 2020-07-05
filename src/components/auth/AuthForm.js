@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import Picker from 'react-native-picker-select';
 import {
     register,
     emailLabel,
@@ -24,7 +25,8 @@ export default class AuthForm extends Component {
 
     state = {
         email: '',
-        password: ''
+        password: '',
+        gender: 'm'
     };
     onInputChange(values) {
         const keys = Object.keys(values);
@@ -86,10 +88,57 @@ export default class AuthForm extends Component {
             );
         }
     }
+
+    renderPicker() {
+        const { transparentBackground, noBorder, dropDownIcon, inputAndroid, inputIOS } = styles;
+        const { fill } = commonStyles;
+        const genders = [
+            {
+                label: 'Mr.',
+                value: 'm',
+                key: 'm'
+            },
+            {
+                label: 'Mrs.',
+                value: 'f',
+                key: 'f'
+            }
+        ];
+        if (!this.props.login) {
+            return (
+                <CardSection style={[transparentBackground, noBorder]}>
+                    <View style={fill}>
+                        <Picker
+                            items={genders}
+                            onValueChange={(value) => {
+                                this.setState({
+                                    gender: value
+                                });
+                            }}
+                            value={this.state.gender}
+                            placeholderTextColor='white'
+                            Icon={() => (
+                                    <View
+                                        style={dropDownIcon}
+                                    />
+                                )
+                            }
+                            style={{
+                                inputAndroid,
+                                inputIOS
+                            }}
+                            onSubmitEditing={this.onSubmit}
+                            ref='picker'
+                        />
+                    </View>
+                </CardSection>
+            );
+        }
+    }
+
     render() {
         const { textContainerStyle, transparentBackground, textColor, noBorder } = styles;
         const { fontLarge } = commonStyles;
-        
         return (
             <View
                 contentContainerStyle={transparentBackground}
@@ -115,7 +164,6 @@ export default class AuthForm extends Component {
                             onChangeText={(text) => this.onInputChange({ email: text })}
                         />    
                     </CardSection>
-                    
                     <CardSection style={[transparentBackground, noBorder]}>
                         <Input 
                             label={passwordLabel}
@@ -130,10 +178,17 @@ export default class AuthForm extends Component {
                             tintColor={colors.textInputColor}
                             baseColor={colors.textInputColor}
                             containerStyle={textContainerStyle}
-                            onSubmitEditing={this.onSubmit}
+                            onSubmitEditing={() => {
+                                if (this.props.login) {
+                                    this.onSubmit();
+                                } else {
+                                    this.refs.picker.togglePicker();
+                                }                                
+                            }}
                             onChangeText={(text) => this.onInputChange({ password: text })}
                         />
                     </CardSection>
+                    {this.renderPicker()}
                     {this.renderError()}
                     <CardSection style={[transparentBackground, noBorder]}>
                         {this.renderButton()}
